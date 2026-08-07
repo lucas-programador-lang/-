@@ -1,60 +1,65 @@
 /* =============================================================
-   FONTS
-   A restrained serif (Fraunces) carries the premium/editorial
-   voice on headings and money figures; Inter stays the clean,
-   legible workhorse for everything else.
-   ============================================================= */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
-
-/* =============================================================
    DESIGN TOKENS
-   Palette: deep ink navy + brushed gold + deep-sea teal.
    ============================================================= */
 :root {
-    /* Brand */
-    --primary-color: #c9a227;      /* brushed gold */
-    --primary-dark: #96751b;
-    --primary-light: #e8cd76;
-    --accent-color: #1fb6a1;       /* deep-sea teal */
-    --accent-soft: #6fe4d1;
+    /* Brand — mesma paleta original, com tons intermediários para
+       gradientes mais ricos e profundidade "premium" */
+    --primary-color: #20b2aa;
+    --primary-dark: #0e5f5a;
+    --primary-darker: #093f3c;
+    --primary-mid: #17968f;
+    --primary-light: #4dd0c9;
+    --primary-lighter: #8ce8e2;
+    --accent-color: #00e5ff;
+    --accent-soft: #7df9ff;
+    --accent-deep: #00a8c2;
 
-    /* Surfaces */
-    --bg-dark: #060810;
-    --bg-dark-2: #0a0d17;
-    --bg-card: #0e1420;
-    --bg-card-2: #131b2a;
-    --bg-elevated: #17202f;
+    /* Metal sheen (usa só as cores da marca, sem introduzir matiz nova) */
+    --sheen: linear-gradient(115deg,
+        rgba(255, 255, 255, 0) 20%,
+        rgba(255, 255, 255, 0.10) 36%,
+        rgba(125, 249, 255, 0.16) 45%,
+        rgba(255, 255, 255, 0.10) 54%,
+        rgba(255, 255, 255, 0) 70%);
+    --border-gradient: linear-gradient(135deg, rgba(125, 249, 255, 0.55), rgba(32, 178, 170, 0.15) 40%, rgba(255, 255, 255, 0.06) 70%, rgba(0, 229, 255, 0.35));
+
+    /* Surfaces — mais camadas, mais contraste entre níveis */
+    --bg-dark: #04070c;
+    --bg-dark-2: #070d16;
+    --bg-card: #0d1826;
+    --bg-card-2: #122135;
+    --bg-card-3: #16283d;
+    --bg-elevated: #1a2e46;
     --border-soft: rgba(255, 255, 255, 0.07);
-    --border-primary: rgba(201, 162, 39, 0.32);
+    --border-soft-2: rgba(255, 255, 255, 0.13);
+    --border-primary: rgba(32, 178, 170, 0.32);
 
     /* Text */
-    --text-color: #f6f3ea;
-    --text-muted: #9aa1b4;
-    --text-faint: #5b6273;
+    --text-color: #f6f9fc;
+    --text-muted: #97a8bd;
+    --text-faint: #5c6e83;
 
     /* Status */
-    --success: #22c58e;
-    --success-bg: rgba(34, 197, 142, 0.12);
-    --danger: #ef4a5e;
-    --danger-bg: rgba(239, 74, 94, 0.12);
-    --warning: #f0a934;
-    --warning-bg: rgba(240, 169, 52, 0.12);
+    --success: #16d69a;
+    --success-bg: rgba(22, 214, 154, 0.12);
+    --danger: #f2495c;
+    --danger-bg: rgba(242, 73, 92, 0.12);
+    --warning: #f5a623;
+    --warning-bg: rgba(245, 166, 35, 0.12);
     --info: #3ea6ff;
     --info-bg: rgba(62, 166, 255, 0.12);
 
-    /* Fonts */
-    --font-display: 'Fraunces', 'Georgia', serif;
-    --font-body: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    /* Effects */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.28);
-    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.48);
-    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.58);
-    --shadow-glow: 0 0 0 1px rgba(201, 162, 39, 0.14), 0 12px 44px rgba(201, 162, 39, 0.14);
-    --radius-sm: 8px;
-    --radius-md: 14px;
+    /* Effects — sombras mais suaves e "empilhadas" para sensação de profundidade */
+    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.28);
+    --shadow-md: 0 12px 34px rgba(0, 0, 0, 0.48);
+    --shadow-lg: 0 26px 70px rgba(0, 0, 0, 0.58);
+    --shadow-glow: 0 0 0 1px rgba(32, 178, 170, 0.16), 0 12px 46px rgba(32, 178, 170, 0.18), 0 2px 0 rgba(255, 255, 255, 0.03) inset;
+    --shadow-inset-top: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --radius-sm: 10px;
+    --radius-md: 16px;
     --radius-lg: 22px;
-    --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* =============================================================
@@ -64,7 +69,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--font-body);
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -83,6 +88,8 @@ body {
     align-items: center;
     overflow-x: hidden;
     line-height: 1.5;
+    font-feature-settings: "ss01" on, "cv11" on;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Dashboard/app pages (sidebar layout) stretch full-bleed instead of
@@ -92,20 +99,20 @@ body.app-body {
     justify-content: flex-start;
 }
 
-/* Layered, premium backdrop: ink navy base + gold/teal glows + faint
-   grid + vignette. Restrained on purpose — the glow is atmosphere,
-   not decoration. */
+/* Layered, premium backdrop: deep navy base + teal/cyan/indigo glows +
+   fine grid + soft grain + vignette, tuned for more depth than before */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -2;
     background:
-        radial-gradient(ellipse 820px 560px at 6% -10%, rgba(201, 162, 39, 0.16), transparent 58%),
-        radial-gradient(ellipse 760px 680px at 108% 6%, rgba(31, 182, 161, 0.14), transparent 55%),
-        radial-gradient(ellipse 620px 520px at 80% 96%, rgba(99, 102, 241, 0.10), transparent 60%),
-        radial-gradient(ellipse 900px 600px at 28% 118%, rgba(150, 117, 27, 0.14), transparent 60%),
-        radial-gradient(ellipse 1200px 800px at 50% 50%, transparent 40%, rgba(2, 4, 9, 0.6) 100%),
+        radial-gradient(ellipse 820px 580px at 6% -10%, rgba(32, 178, 170, 0.26), transparent 58%),
+        radial-gradient(ellipse 780px 700px at 110% 6%, rgba(0, 229, 255, 0.19), transparent 55%),
+        radial-gradient(ellipse 640px 540px at 80% 94%, rgba(99, 102, 241, 0.15), transparent 60%),
+        radial-gradient(ellipse 920px 620px at 26% 118%, rgba(14, 95, 90, 0.24), transparent 60%),
+        radial-gradient(ellipse 500px 380px at 50% 40%, rgba(125, 249, 255, 0.05), transparent 65%),
+        radial-gradient(ellipse 1300px 900px at 50% 50%, transparent 38%, rgba(1, 4, 8, 0.62) 100%),
         linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-dark-2) 100%);
 }
 
@@ -116,14 +123,14 @@ body::after {
     z-index: -1;
     opacity: 0.4;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
     background-size: 42px 42px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 20%, transparent 80%);
 }
 
 ::selection {
-    background: rgba(201, 162, 39, 0.35);
+    background: rgba(32, 178, 170, 0.35);
     color: #fff;
 }
 
@@ -136,13 +143,13 @@ body::after {
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(201, 162, 39, 0.32);
+    background: rgba(32, 178, 170, 0.35);
     border-radius: 10px;
     border: 2px solid transparent;
     background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(201, 162, 39, 0.5);
+    background: rgba(32, 178, 170, 0.55);
     background-clip: padding-box;
 }
 
@@ -167,29 +174,48 @@ input:focus-visible,
 
 .card {
     position: relative;
-    background: linear-gradient(160deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
+    background:
+        linear-gradient(160deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-lg);
     padding: 38px 34px;
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow), var(--shadow-inset-top);
+    backdrop-filter: blur(22px);
     overflow: hidden;
-    animation: card-rise 500ms ease both;
+    animation: card-rise 550ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Subtle top sheen for a premium glass edge, in brushed gold */
+/* Fine gradient border ring for a jewelled, premium edge */
 .card::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(232, 205, 118, 0.55), transparent);
+    inset: 0;
+    padding: 1px;
+    border-radius: var(--radius-lg);
+    background: var(--border-gradient);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Slow-moving sheen sweep across the card top for a subtle luxe glint */
+.card::after {
+    content: "";
+    position: absolute;
+    top: -60%;
+    left: -20%;
+    width: 60%;
+    height: 220%;
+    background: var(--sheen);
+    transform: rotate(8deg);
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 @keyframes card-rise {
-    from { opacity: 0; transform: translateY(14px) scale(0.99); }
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
     to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
@@ -203,19 +229,18 @@ input:focus-visible,
     height: 80px;
     border-radius: 20px;
     object-fit: cover;
-    box-shadow: 0 8px 24px rgba(201, 162, 39, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    box-shadow: 0 10px 28px rgba(32, 178, 170, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 h1, h2, h3 {
-    font-family: var(--font-display);
     color: var(--text-color);
     text-align: center;
     letter-spacing: -0.01em;
 }
 
-h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
-h2 { font-size: 21px; font-weight: 600; margin-bottom: 16px; }
-h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+h1 { font-size: 27px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+h2 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
+h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 
 .card > p.subtitle,
 .subtitle {
@@ -261,7 +286,7 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .form-group input:hover {
-    border-color: rgba(255, 255, 255, 0.18);
+    border-color: var(--border-soft-2);
 }
 
 .form-group input:focus,
@@ -269,8 +294,8 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 .form-group textarea:focus {
     border-color: var(--primary-color);
     outline: none;
-    background: rgba(201, 162, 39, 0.06);
-    box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.14);
+    background: rgba(32, 178, 170, 0.07);
+    box-shadow: 0 0 0 4px rgba(32, 178, 170, 0.16);
 }
 
 .form-group input:disabled {
@@ -316,7 +341,7 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 
 .toggle-password:hover {
     color: var(--primary-light);
-    background: rgba(201, 162, 39, 0.1);
+    background: rgba(32, 178, 170, 0.1);
 }
 
 .toggle-password:active {
@@ -336,22 +361,31 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     position: relative;
     width: 100%;
     padding: 13px;
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-color) 55%, var(--primary-dark));
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color) 45%, var(--primary-dark));
     border: none;
     border-radius: var(--radius-sm);
-    color: #17130a;
+    color: #fff;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.01em;
     cursor: pointer;
     transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition), filter var(--transition);
     margin-top: 10px;
-    box-shadow: 0 8px 22px rgba(201, 162, 39, 0.32);
+    box-shadow: 0 8px 22px rgba(32, 178, 170, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    overflow: hidden;
+}
+
+.btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 55%);
+    pointer-events: none;
 }
 
 .btn:hover {
-    filter: brightness(1.06);
-    box-shadow: 0 12px 30px rgba(201, 162, 39, 0.44);
+    filter: brightness(1.08);
+    box-shadow: 0 12px 30px rgba(32, 178, 170, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.22);
     transform: translateY(-1px);
 }
 
@@ -374,29 +408,32 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     box-shadow: none;
 }
 
+.btn.btn-outline::after {
+    display: none;
+}
+
 .btn.btn-outline:hover {
-    background: rgba(201, 162, 39, 0.08);
+    background: rgba(32, 178, 170, 0.08);
+    border-color: rgba(32, 178, 170, 0.5);
     box-shadow: none;
 }
 
 .btn.btn-danger {
-    background: linear-gradient(135deg, var(--danger), #c22f40);
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(239, 74, 94, 0.28);
+    background: linear-gradient(135deg, #ff6b7d, var(--danger) 55%, #c22f40);
+    box-shadow: 0 8px 22px rgba(242, 73, 92, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .btn.btn-danger:hover {
-    box-shadow: 0 10px 26px rgba(239, 74, 94, 0.4);
+    box-shadow: 0 12px 30px rgba(242, 73, 92, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn.btn-success {
-    background: linear-gradient(135deg, var(--success), #0a8f68);
-    color: #fff;
-    box-shadow: 0 6px 18px rgba(34, 197, 142, 0.28);
+    background: linear-gradient(135deg, #37e3ab, var(--success) 55%, #0a8f68);
+    box-shadow: 0 8px 22px rgba(18, 196, 139, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 .btn.btn-success:hover {
-    box-shadow: 0 10px 26px rgba(34, 197, 142, 0.4);
+    box-shadow: 0 12px 30px rgba(18, 196, 139, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .btn.btn-compact {
@@ -416,7 +453,7 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 .link-text a {
     color: var(--accent-color);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
     transition: color var(--transition);
 }
 
@@ -436,18 +473,19 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .sidebar {
-    width: 268px;
+    width: 272px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    padding: 28px 18px;
-    background: linear-gradient(180deg, rgba(14, 20, 32, 0.94) 0%, rgba(10, 13, 23, 0.98) 100%);
+    padding: 30px 18px;
+    background: linear-gradient(180deg, rgba(13, 24, 38, 0.94) 0%, rgba(10, 18, 29, 0.98) 100%);
     border-right: 1px solid var(--border-soft);
-    backdrop-filter: blur(18px);
+    backdrop-filter: blur(20px);
     position: sticky;
     top: 0;
     height: 100vh;
     height: 100dvh;
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.25);
 }
 
 .sidebar-brand {
@@ -462,15 +500,14 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 .brand-logo {
     width: 40px;
     height: 40px;
-    border-radius: 11px;
+    border-radius: 12px;
     object-fit: cover;
-    box-shadow: 0 6px 18px rgba(201, 162, 39, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 22px rgba(32, 178, 170, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.09);
 }
 
 .brand-name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 16.5px;
+    font-weight: 700;
+    font-size: 15.5px;
     letter-spacing: 0.02em;
     color: var(--text-color);
 }
@@ -478,7 +515,7 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
     flex-grow: 1;
 }
 
@@ -497,18 +534,20 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     font-weight: 500;
     text-align: left;
     cursor: pointer;
-    transition: background var(--transition), color var(--transition);
+    transition: background var(--transition), color var(--transition), padding-left var(--transition);
 }
 
 .nav-item:hover {
-    background: rgba(255, 255, 255, 0.045);
+    background: rgba(255, 255, 255, 0.05);
     color: var(--text-color);
+    padding-left: 17px;
 }
 
 .nav-item.active {
-    background: linear-gradient(90deg, rgba(201, 162, 39, 0.16), rgba(31, 182, 161, 0.05));
-    color: var(--primary-light);
+    background: linear-gradient(90deg, rgba(32, 178, 170, 0.18), rgba(0, 229, 255, 0.05));
+    color: var(--accent-soft);
     font-weight: 600;
+    box-shadow: var(--shadow-inset-top);
 }
 
 .nav-item.active::before {
@@ -520,7 +559,7 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     width: 3px;
     border-radius: 0 4px 4px 0;
     background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
-    box-shadow: 0 0 12px rgba(201, 162, 39, 0.5);
+    box-shadow: 0 0 14px rgba(0, 229, 255, 0.55);
 }
 
 .nav-item .nav-icon {
@@ -605,13 +644,67 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 
 .main-content {
     flex-grow: 1;
-    padding: 36px 44px;
-    max-width: 960px;
+    padding: 38px 46px;
+    max-width: 980px;
 }
 
-/* ===== MOBILE TOP BAR (hidden on desktop) ===== */
-.mobile-topbar {
+/* ===== MOBILE TOP BAR (com hamburger) & OVERLAY ===== */
+.mobile-topbar,
+.sidebar-overlay {
     display: none;
+}
+
+/* Botão hamburger — vira "X" quando o menu está aberto */
+.hamburger-btn {
+    display: none;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition);
+}
+
+.hamburger-btn:hover {
+    background: rgba(32, 178, 170, 0.1);
+    border-color: var(--border-primary);
+}
+
+.hamburger-btn .hamburger-lines {
+    position: relative;
+    width: 18px;
+    height: 13px;
+}
+
+.hamburger-btn .hamburger-lines span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text-color);
+    transition: transform var(--transition-slow), opacity var(--transition-slow), top var(--transition-slow);
+}
+
+.hamburger-btn .hamburger-lines span:nth-child(1) { top: 0; }
+.hamburger-btn .hamburger-lines span:nth-child(2) { top: 5.5px; }
+.hamburger-btn .hamburger-lines span:nth-child(3) { top: 11px; }
+
+/* Estado aberto: o próprio body ganha esta classe via JS */
+body.menu-open .hamburger-btn .hamburger-lines span:nth-child(1) {
+    top: 5.5px;
+    transform: rotate(45deg);
+}
+body.menu-open .hamburger-btn .hamburger-lines span:nth-child(2) {
+    opacity: 0;
+}
+body.menu-open .hamburger-btn .hamburger-lines span:nth-child(3) {
+    top: 5.5px;
+    transform: rotate(-45deg);
 }
 
 .page-section {
@@ -629,12 +722,12 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .page-title {
-    font-family: var(--font-display);
     font-size: 25px;
-    font-weight: 600;
+    font-weight: 700;
     text-align: left;
     margin-bottom: 20px;
     color: var(--text-color);
+    letter-spacing: -0.015em;
 }
 
 .page-title + .page-subtitle {
@@ -677,7 +770,7 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
    DASHBOARD
    ============================================================= */
 .dashboard-container {
-    max-width: 880px;
+    max-width: 900px;
     width: 100%;
     padding: 24px;
     margin: 0 auto;
@@ -688,15 +781,15 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(160deg, var(--bg-card), var(--bg-card-2));
-    padding: 16px 26px;
+    padding: 17px 26px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-primary);
     margin-bottom: 22px;
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-sm), var(--shadow-inset-top);
 }
 
 .balance-card {
-    background: linear-gradient(135deg, #0e1420 0%, #142334 100%);
+    background: linear-gradient(135deg, #0c1826 0%, #123650 100%);
     padding: 28px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-primary);
@@ -707,25 +800,11 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     overflow: hidden;
 }
 
-/* Signature detail: a faint gold "porthole" ring, a quiet nod to the
-   yacht/nautical subject without shouting about it. */
-.balance-card::before {
-    content: "";
-    position: absolute;
-    top: -70px;
-    right: -70px;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    border: 1px solid rgba(201, 162, 39, 0.16);
-    pointer-events: none;
-}
-
 .balance-card::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 420px 210px at 50% -20%, rgba(31, 182, 161, 0.16), transparent 70%);
+    background: radial-gradient(ellipse 420px 210px at 50% -20%, rgba(0, 229, 255, 0.2), transparent 70%);
     pointer-events: none;
 }
 
@@ -733,19 +812,20 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     color: var(--text-muted);
     font-size: 12.5px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.07em;
+    font-weight: 600;
     position: relative;
 }
 
 .balance-card h2 {
-    font-family: var(--font-display);
     color: var(--primary-light);
-    font-size: 34px;
-    font-weight: 600;
+    font-size: 33px;
+    font-weight: 700;
     margin-top: 8px;
     margin-bottom: 0;
-    text-shadow: 0 0 26px rgba(201, 162, 39, 0.3);
+    text-shadow: 0 0 26px rgba(32, 178, 170, 0.4);
     position: relative;
+    letter-spacing: -0.02em;
 }
 
 .balance-actions {
@@ -784,7 +864,7 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 
 .yacht-card h3 {
     margin-bottom: 10px;
-    color: var(--accent-soft);
+    color: var(--accent-color);
 }
 
 .yacht-card p {
@@ -865,10 +945,9 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .stat-card h2 {
-    font-family: var(--font-display);
     margin: 8px 0 0 0;
-    color: var(--accent-soft);
-    font-size: 23px;
+    color: var(--accent-color);
+    font-size: 22px;
 }
 
 /* =============================================================
@@ -938,12 +1017,12 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     align-items: flex-start;
     gap: 12px;
     padding: 16px 18px;
-    background: linear-gradient(160deg, rgba(14, 20, 32, 0.97), rgba(19, 27, 42, 0.97));
+    background: linear-gradient(160deg, rgba(15, 27, 42, 0.97), rgba(18, 33, 51, 0.97));
     border: 1px solid var(--border-soft);
     border-left: 4px solid var(--primary-color);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(18px);
     color: var(--text-color);
     animation: toast-in 320ms cubic-bezier(0.16, 1, 0.3, 1) both;
     overflow: hidden;
@@ -1049,8 +1128,8 @@ h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(3, 5, 10, 0.74);
-    backdrop-filter: blur(6px);
+    background: rgba(3, 7, 13, 0.75);
+    backdrop-filter: blur(7px);
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -1159,7 +1238,7 @@ body.modal-open {
     justify-content: center;
     gap: 8px;
     background: var(--warning-bg);
-    border: 1px solid rgba(240, 169, 52, 0.3);
+    border: 1px solid rgba(245, 166, 35, 0.3);
     color: var(--warning);
     font-size: 13px;
     font-weight: 600;
@@ -1278,60 +1357,6 @@ body.modal-open {
 }
 
 /* =============================================================
-   HAMBURGER MENU (mobile navigation trigger)
-   Markup expected in the mobile topbar:
-     <button class="hamburger-btn" aria-label="Abrir menu" aria-expanded="false">
-       <span></span><span></span><span></span>
-     </button>
-   Toggle by adding/removing "is-open" on the button, "mobile-open"
-   on .sidebar and "open" on .sidebar-overlay. See the JS snippet
-   provided alongside this file.
-   ============================================================= */
-.hamburger-btn {
-    display: none; /* shown only on mobile, see media query below */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-soft);
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 0;
-    flex-shrink: 0;
-}
-
-.hamburger-btn span {
-    display: block;
-    width: 18px;
-    height: 2px;
-    border-radius: 2px;
-    background: var(--text-color);
-    transition: transform var(--transition), opacity var(--transition);
-}
-
-.hamburger-btn.is-open span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-.hamburger-btn.is-open span:nth-child(2) {
-    opacity: 0;
-}
-.hamburger-btn.is-open span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
-
-/* Dark scrim behind the off-canvas drawer */
-.sidebar-overlay {
-    display: none;
-}
-
-.sidebar-close {
-    display: none;
-}
-
-/* =============================================================
    RESPONSIVE — TABLET & DESKTOP
    ============================================================= */
 @media (min-width: 640px) {
@@ -1355,10 +1380,10 @@ body.modal-open {
         padding: 46px 42px;
     }
 
-    h1 { font-size: 32px; }
+    h1 { font-size: 31px; }
 
     .balance-card h2 {
-        font-size: 40px;
+        font-size: 39px;
     }
 
     .grid-yacht {
@@ -1367,88 +1392,91 @@ body.modal-open {
 
     .sidebar {
         width: 284px;
-        padding: 32px 20px;
+        padding: 34px 20px;
     }
 
     .main-content {
-        padding: 44px 56px;
+        padding: 46px 58px;
     }
 
     .page-title {
         font-size: 28px;
     }
+
+    /* Micro-interação de elevação para cards no desktop, onde há
+       espaço/precisão de mouse para justificar o efeito */
+    .stat-card,
+    .header-dash {
+        transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--border-primary);
+        box-shadow: var(--shadow-md);
+    }
+}
+
+@media (min-width: 1280px) {
+    .main-content {
+        padding: 52px 72px;
+    }
+
+    .dashboard-container {
+        max-width: 960px;
+    }
 }
 
 /* =============================================================
-   RESPONSIVE — MOBILE (hamburger navigation)
+   RESPONSIVE — MOBILE (menu hamburger)
    ============================================================= */
 @media (max-width: 768px) {
     .app-layout {
         flex-direction: column;
     }
 
-    /* The sidebar becomes an off-canvas drawer instead of a static
-       column: hidden past the left edge until toggled open. */
+    /* A sidebar deixa de ser uma coluna fixa e vira um drawer que
+       desliza a partir da esquerda, controlado pelo botão hamburger */
     .sidebar {
-        display: flex;
         position: fixed;
         top: 0;
         left: 0;
-        bottom: 0;
-        z-index: 101;
-        width: min(84vw, 300px);
+        z-index: 110;
+        width: min(80vw, 300px);
         height: 100vh;
         height: 100dvh;
         transform: translateX(-100%);
+        transition: transform var(--transition-slow);
         box-shadow: var(--shadow-lg);
-        transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .sidebar.mobile-open {
+    body.menu-open .sidebar {
         transform: translateX(0);
     }
 
-    .sidebar-close {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 18px;
-        right: 16px;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border-soft);
-        color: var(--text-muted);
-        font-size: 18px;
-        line-height: 1;
-        cursor: pointer;
-    }
-
-    .sidebar-close:hover {
-        background: var(--danger-bg);
-        color: var(--danger);
-    }
-
-    /* Scrim behind the drawer, closes it on tap */
+    /* Overlay escuro atrás do drawer, fecha o menu ao ser tocado */
     .sidebar-overlay {
         display: block;
         position: fixed;
         inset: 0;
         z-index: 100;
-        background: rgba(3, 5, 10, 0.6);
+        background: rgba(3, 7, 13, 0.6);
         backdrop-filter: blur(3px);
         opacity: 0;
         pointer-events: none;
-        transition: opacity 220ms ease;
+        transition: opacity var(--transition-slow);
     }
 
-    .sidebar-overlay.open {
+    body.menu-open .sidebar-overlay {
         opacity: 1;
         pointer-events: auto;
     }
 
+    body.menu-open {
+        overflow: hidden;
+    }
+
+    /* Barra fixa no topo com marca + botão hamburger */
     .mobile-topbar {
         display: flex;
         align-items: center;
@@ -1458,13 +1486,9 @@ body.modal-open {
         position: sticky;
         top: 0;
         z-index: 40;
-        background: rgba(10, 13, 23, 0.92);
+        background: rgba(10, 18, 29, 0.92);
         border-bottom: 1px solid var(--border-soft);
-        backdrop-filter: blur(16px);
-    }
-
-    .mobile-topbar .hamburger-btn {
-        display: flex;
+        backdrop-filter: blur(18px);
     }
 
     .mobile-topbar .sidebar-brand {
@@ -1477,6 +1501,10 @@ body.modal-open {
         display: flex;
         align-items: center;
         gap: 8px;
+    }
+
+    .hamburger-btn {
+        display: flex;
     }
 
     .icon-btn {
@@ -1505,13 +1533,19 @@ body.modal-open {
 
     .icon-btn-danger:hover {
         background: var(--danger-bg);
-        border-color: rgba(239, 74, 94, 0.35);
+        border-color: rgba(242, 73, 92, 0.35);
         color: var(--danger);
     }
 
     .main-content {
         padding: 20px 16px 40px 16px;
         max-width: 100%;
+    }
+
+    /* O menu inferior antigo some: toda a navegação mobile agora
+       acontece pelo drawer do hamburger */
+    .mobile-bottom-nav {
+        display: none !important;
     }
 }
 
