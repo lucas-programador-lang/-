@@ -610,11 +610,40 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     color: var(--text-color);
 }
 
+.page-title + .page-subtitle {
+    margin-top: -14px;
+}
+
+.page-subtitle {
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 22px 0;
+    max-width: 520px;
+}
+
 .section-subtitle {
     text-align: left;
     font-size: 16px;
     margin: 26px 0 12px 0;
     color: var(--text-color);
+}
+
+.form-box {
+    border-left: 4px solid var(--primary-color);
+}
+
+.form-box .form-group label {
+    color: var(--text-muted);
+}
+
+.form-box .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-box-note {
+    margin-bottom: 16px;
 }
 
 /* =============================================================
