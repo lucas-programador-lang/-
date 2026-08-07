@@ -16,12 +16,19 @@
             </div>
             <form id="registerForm">
                 <div class="form-group">
-                    <label>Usuário</label>
-                    <input type="text" id="regUser" required placeholder="Escolha um usuário">
+                    <label>Nome completo</label>
+                    <input type="text" id="regName" required placeholder="Digite seu nome completo">
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="regEmail" required placeholder="Digite seu e-mail">
                 </div>
                 <div class="form-group">
                     <label>Senha</label>
-                    <input type="password" id="regPass" required placeholder="Crie uma senha">
+                    <div class="password-field">
+                        <input type="password" id="regPass" required placeholder="Crie uma senha">
+                        <button type="button" class="toggle-password" data-target="regPass" aria-label="Mostrar senha">👁️</button>
+                    </div>
                 </div>
                 <button type="submit" class="btn">Cadastrar</button>
             </form>
@@ -31,6 +38,5 @@
         </div>
     </div>
     <script src="auth.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
