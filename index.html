@@ -189,15 +189,34 @@
                         <button class="btn btn-compact" onclick="navigator.clipboard.writeText(document.getElementById('refLink').value); alert('Link copiado!');">Copiar</button>
                     </div>
                 </div>
+
+                <h3 class="section-subtitle">Comissão</h3>
                 <div class="grid-stats">
                     <div class="stat-card">
-                        <span>Indicados Diretos</span>
-                        <h2>0</h2>
+                        <span>Comissões (1º Nível - 10%)</span>
+                        <h2 id="comissaoNivel1">R$ 300,00</h2>
                     </div>
                     <div class="stat-card">
-                        <span>Comissão Total</span>
-                        <h2>R$ 0,00</h2>
+                        <span>Total de Indicados</span>
+                        <h2 id="totalIndicados">0</h2>
                     </div>
+                </div>
+
+                <h3 class="section-subtitle">Membros da Rede</h3>
+                <div class="info-box">
+                    <table class="extrato-table">
+                        <thead>
+                            <tr>
+                                <th>Data de Cadastro</th>
+                                <th>Nome</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membrosRedeBody">
+                            <tr>
+                                <td colspan="2" class="muted">Nenhum membro na sua rede ainda. Compartilhe seu link de indicação para começar.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
