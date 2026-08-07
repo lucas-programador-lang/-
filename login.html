@@ -15,12 +15,15 @@
             </div>
             <form id="loginForm">
                 <div class="form-group">
-                    <label>Nome completo</label>
-                    <input type="text" id="username" required placeholder="Digite seu nome completo">
+                    <label>E-mail</label>
+                    <input type="email" id="email" required placeholder="Digite seu e-mail">
                 </div>
                 <div class="form-group">
                     <label>Senha</label>
-                    <input type="password" id="password" required placeholder="Digite sua senha">
+                    <div class="password-field">
+                        <input type="password" id="password" required placeholder="Digite sua senha">
+                        <button type="button" class="toggle-password" data-target="password" aria-label="Mostrar senha">👁️</button>
+                    </div>
                 </div>
                 <button type="submit" class="btn">Entrar</button>
             </form>
