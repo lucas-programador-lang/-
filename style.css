@@ -1,46 +1,59 @@
 /* =============================================================
+   FONTS
+   A restrained serif (Fraunces) carries the premium/editorial
+   voice on headings and money figures; Inter stays the clean,
+   legible workhorse for everything else.
+   ============================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+/* =============================================================
    DESIGN TOKENS
+   Palette: deep ink navy + brushed gold + deep-sea teal.
    ============================================================= */
 :root {
     /* Brand */
-    --primary-color: #20b2aa;
-    --primary-dark: #14847d;
-    --primary-light: #4dd0c9;
-    --accent-color: #00e5ff;
-    --accent-soft: #7df9ff;
+    --primary-color: #c9a227;      /* brushed gold */
+    --primary-dark: #96751b;
+    --primary-light: #e8cd76;
+    --accent-color: #1fb6a1;       /* deep-sea teal */
+    --accent-soft: #6fe4d1;
 
     /* Surfaces */
-    --bg-dark: #060b12;
-    --bg-dark-2: #0b1420;
-    --bg-card: #101d2e;
-    --bg-card-2: #14263b;
-    --bg-elevated: #17293f;
-    --border-soft: rgba(255, 255, 255, 0.08);
-    --border-primary: rgba(32, 178, 170, 0.28);
+    --bg-dark: #060810;
+    --bg-dark-2: #0a0d17;
+    --bg-card: #0e1420;
+    --bg-card-2: #131b2a;
+    --bg-elevated: #17202f;
+    --border-soft: rgba(255, 255, 255, 0.07);
+    --border-primary: rgba(201, 162, 39, 0.32);
 
     /* Text */
-    --text-color: #f4f8fb;
-    --text-muted: #93a4b8;
-    --text-faint: #5f7186;
+    --text-color: #f6f3ea;
+    --text-muted: #9aa1b4;
+    --text-faint: #5b6273;
 
     /* Status */
-    --success: #12c48b;
-    --success-bg: rgba(18, 196, 139, 0.12);
-    --danger: #f2495c;
-    --danger-bg: rgba(242, 73, 92, 0.12);
-    --warning: #f5a623;
-    --warning-bg: rgba(245, 166, 35, 0.12);
+    --success: #22c58e;
+    --success-bg: rgba(34, 197, 142, 0.12);
+    --danger: #ef4a5e;
+    --danger-bg: rgba(239, 74, 94, 0.12);
+    --warning: #f0a934;
+    --warning-bg: rgba(240, 169, 52, 0.12);
     --info: #3ea6ff;
     --info-bg: rgba(62, 166, 255, 0.12);
 
+    /* Fonts */
+    --font-display: 'Fraunces', 'Georgia', serif;
+    --font-body: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
     /* Effects */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
-    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.55);
-    --shadow-glow: 0 0 0 1px rgba(32, 178, 170, 0.15), 0 10px 40px rgba(32, 178, 170, 0.15);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.28);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.48);
+    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.58);
+    --shadow-glow: 0 0 0 1px rgba(201, 162, 39, 0.14), 0 12px 44px rgba(201, 162, 39, 0.14);
     --radius-sm: 8px;
     --radius-md: 14px;
-    --radius-lg: 20px;
+    --radius-lg: 22px;
     --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -51,7 +64,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-body);
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -79,18 +92,20 @@ body.app-body {
     justify-content: flex-start;
 }
 
-/* Layered, premium backdrop: deep navy base + teal/cyan/indigo glows + faint grid + vignette */
+/* Layered, premium backdrop: ink navy base + gold/teal glows + faint
+   grid + vignette. Restrained on purpose — the glow is atmosphere,
+   not decoration. */
 body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: -2;
     background:
-        radial-gradient(ellipse 800px 560px at 8% -8%, rgba(32, 178, 170, 0.22), transparent 58%),
-        radial-gradient(ellipse 760px 680px at 108% 8%, rgba(0, 229, 255, 0.16), transparent 55%),
-        radial-gradient(ellipse 620px 520px at 78% 92%, rgba(99, 102, 241, 0.14), transparent 60%),
-        radial-gradient(ellipse 900px 600px at 30% 115%, rgba(20, 132, 125, 0.18), transparent 60%),
-        radial-gradient(ellipse 1200px 800px at 50% 50%, transparent 40%, rgba(2, 6, 12, 0.55) 100%),
+        radial-gradient(ellipse 820px 560px at 6% -10%, rgba(201, 162, 39, 0.16), transparent 58%),
+        radial-gradient(ellipse 760px 680px at 108% 6%, rgba(31, 182, 161, 0.14), transparent 55%),
+        radial-gradient(ellipse 620px 520px at 80% 96%, rgba(99, 102, 241, 0.10), transparent 60%),
+        radial-gradient(ellipse 900px 600px at 28% 118%, rgba(150, 117, 27, 0.14), transparent 60%),
+        radial-gradient(ellipse 1200px 800px at 50% 50%, transparent 40%, rgba(2, 4, 9, 0.6) 100%),
         linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-dark-2) 100%);
 }
 
@@ -99,16 +114,16 @@ body::after {
     position: fixed;
     inset: 0;
     z-index: -1;
-    opacity: 0.45;
+    opacity: 0.4;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
     background-size: 42px 42px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 20%, transparent 80%);
 }
 
 ::selection {
-    background: rgba(32, 178, 170, 0.35);
+    background: rgba(201, 162, 39, 0.35);
     color: #fff;
 }
 
@@ -121,13 +136,13 @@ body::after {
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(32, 178, 170, 0.35);
+    background: rgba(201, 162, 39, 0.32);
     border-radius: 10px;
     border: 2px solid transparent;
     background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(32, 178, 170, 0.55);
+    background: rgba(201, 162, 39, 0.5);
     background-clip: padding-box;
 }
 
@@ -155,14 +170,14 @@ input:focus-visible,
     background: linear-gradient(160deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-lg);
-    padding: 36px 32px;
+    padding: 38px 34px;
     box-shadow: var(--shadow-lg), var(--shadow-glow);
     backdrop-filter: blur(20px);
     overflow: hidden;
     animation: card-rise 500ms ease both;
 }
 
-/* Subtle top sheen for a premium glass edge */
+/* Subtle top sheen for a premium glass edge, in brushed gold */
 .card::before {
     content: "";
     position: absolute;
@@ -170,7 +185,7 @@ input:focus-visible,
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    background: linear-gradient(90deg, transparent, rgba(232, 205, 118, 0.55), transparent);
 }
 
 @keyframes card-rise {
@@ -188,18 +203,19 @@ input:focus-visible,
     height: 80px;
     border-radius: 20px;
     object-fit: cover;
-    box-shadow: 0 8px 24px rgba(32, 178, 170, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    box-shadow: 0 8px 24px rgba(201, 162, 39, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
 h1, h2, h3 {
+    font-family: var(--font-display);
     color: var(--text-color);
     text-align: center;
     letter-spacing: -0.01em;
 }
 
-h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-h2 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
-h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+h2 { font-size: 21px; font-weight: 600; margin-bottom: 16px; }
+h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
 
 .card > p.subtitle,
 .subtitle {
@@ -221,9 +237,9 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     display: block;
     margin-bottom: 6px;
     color: var(--text-muted);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
 }
 
@@ -232,7 +248,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .form-group textarea {
     width: 100%;
     padding: 13px 16px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.035);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-sm);
     color: var(--text-color);
@@ -253,8 +269,8 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .form-group textarea:focus {
     border-color: var(--primary-color);
     outline: none;
-    background: rgba(32, 178, 170, 0.06);
-    box-shadow: 0 0 0 4px rgba(32, 178, 170, 0.14);
+    background: rgba(201, 162, 39, 0.06);
+    box-shadow: 0 0 0 4px rgba(201, 162, 39, 0.14);
 }
 
 .form-group input:disabled {
@@ -300,7 +316,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 
 .toggle-password:hover {
     color: var(--primary-light);
-    background: rgba(32, 178, 170, 0.1);
+    background: rgba(201, 162, 39, 0.1);
 }
 
 .toggle-password:active {
@@ -320,22 +336,22 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     position: relative;
     width: 100%;
     padding: 13px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-color) 55%, var(--primary-dark));
     border: none;
     border-radius: var(--radius-sm);
-    color: #fff;
+    color: #17130a;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.01em;
     cursor: pointer;
     transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition), filter var(--transition);
     margin-top: 10px;
-    box-shadow: 0 6px 18px rgba(32, 178, 170, 0.28);
+    box-shadow: 0 8px 22px rgba(201, 162, 39, 0.32);
 }
 
 .btn:hover {
-    filter: brightness(1.08);
-    box-shadow: 0 10px 26px rgba(32, 178, 170, 0.4);
+    filter: brightness(1.06);
+    box-shadow: 0 12px 30px rgba(201, 162, 39, 0.44);
     transform: translateY(-1px);
 }
 
@@ -359,26 +375,28 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .btn.btn-outline:hover {
-    background: rgba(32, 178, 170, 0.08);
+    background: rgba(201, 162, 39, 0.08);
     box-shadow: none;
 }
 
 .btn.btn-danger {
     background: linear-gradient(135deg, var(--danger), #c22f40);
-    box-shadow: 0 6px 18px rgba(242, 73, 92, 0.28);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(239, 74, 94, 0.28);
 }
 
 .btn.btn-danger:hover {
-    box-shadow: 0 10px 26px rgba(242, 73, 92, 0.4);
+    box-shadow: 0 10px 26px rgba(239, 74, 94, 0.4);
 }
 
 .btn.btn-success {
     background: linear-gradient(135deg, var(--success), #0a8f68);
-    box-shadow: 0 6px 18px rgba(18, 196, 139, 0.28);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(34, 197, 142, 0.28);
 }
 
 .btn.btn-success:hover {
-    box-shadow: 0 10px 26px rgba(18, 196, 139, 0.4);
+    box-shadow: 0 10px 26px rgba(34, 197, 142, 0.4);
 }
 
 .btn.btn-compact {
@@ -398,7 +416,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .link-text a {
     color: var(--accent-color);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     transition: color var(--transition);
 }
 
@@ -418,12 +436,12 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .sidebar {
-    width: 264px;
+    width: 268px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     padding: 28px 18px;
-    background: linear-gradient(180deg, rgba(16, 29, 46, 0.9) 0%, rgba(14, 24, 38, 0.96) 100%);
+    background: linear-gradient(180deg, rgba(14, 20, 32, 0.94) 0%, rgba(10, 13, 23, 0.98) 100%);
     border-right: 1px solid var(--border-soft);
     backdrop-filter: blur(18px);
     position: sticky;
@@ -446,12 +464,13 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     height: 40px;
     border-radius: 11px;
     object-fit: cover;
-    box-shadow: 0 6px 18px rgba(32, 178, 170, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 18px rgba(201, 162, 39, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .brand-name {
-    font-weight: 700;
-    font-size: 15.5px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16.5px;
     letter-spacing: 0.02em;
     color: var(--text-color);
 }
@@ -487,8 +506,8 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .nav-item.active {
-    background: linear-gradient(90deg, rgba(32, 178, 170, 0.16), rgba(0, 229, 255, 0.05));
-    color: var(--accent-soft);
+    background: linear-gradient(90deg, rgba(201, 162, 39, 0.16), rgba(31, 182, 161, 0.05));
+    color: var(--primary-light);
     font-weight: 600;
 }
 
@@ -501,7 +520,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     width: 3px;
     border-radius: 0 4px 4px 0;
     background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
-    box-shadow: 0 0 12px rgba(0, 229, 255, 0.5);
+    box-shadow: 0 0 12px rgba(201, 162, 39, 0.5);
 }
 
 .nav-item .nav-icon {
@@ -590,9 +609,8 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     max-width: 960px;
 }
 
-/* ===== MOBILE TOP BAR & BOTTOM NAV (hidden on desktop) ===== */
-.mobile-topbar,
-.mobile-bottom-nav {
+/* ===== MOBILE TOP BAR (hidden on desktop) ===== */
+.mobile-topbar {
     display: none;
 }
 
@@ -611,8 +629,9 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .page-title {
-    font-size: 24px;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 25px;
+    font-weight: 600;
     text-align: left;
     margin-bottom: 20px;
     color: var(--text-color);
@@ -677,8 +696,8 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .balance-card {
-    background: linear-gradient(135deg, #101d2e 0%, #16334a 100%);
-    padding: 26px;
+    background: linear-gradient(135deg, #0e1420 0%, #142334 100%);
+    padding: 28px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-primary);
     text-align: center;
@@ -688,29 +707,44 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     overflow: hidden;
 }
 
+/* Signature detail: a faint gold "porthole" ring, a quiet nod to the
+   yacht/nautical subject without shouting about it. */
+.balance-card::before {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 162, 39, 0.16);
+    pointer-events: none;
+}
+
 .balance-card::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 400px 200px at 50% -20%, rgba(0, 229, 255, 0.18), transparent 70%);
+    background: radial-gradient(ellipse 420px 210px at 50% -20%, rgba(31, 182, 161, 0.16), transparent 70%);
     pointer-events: none;
 }
 
 .balance-card span {
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: 12.5px;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     position: relative;
 }
 
 .balance-card h2 {
+    font-family: var(--font-display);
     color: var(--primary-light);
-    font-size: 32px;
-    font-weight: 700;
+    font-size: 34px;
+    font-weight: 600;
     margin-top: 8px;
     margin-bottom: 0;
-    text-shadow: 0 0 24px rgba(32, 178, 170, 0.35);
+    text-shadow: 0 0 26px rgba(201, 162, 39, 0.3);
     position: relative;
 }
 
@@ -750,7 +784,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 
 .yacht-card h3 {
     margin-bottom: 10px;
-    color: var(--accent-color);
+    color: var(--accent-soft);
 }
 
 .yacht-card p {
@@ -831,9 +865,10 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .stat-card h2 {
+    font-family: var(--font-display);
     margin: 8px 0 0 0;
-    color: var(--accent-color);
-    font-size: 22px;
+    color: var(--accent-soft);
+    font-size: 23px;
 }
 
 /* =============================================================
@@ -903,7 +938,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     align-items: flex-start;
     gap: 12px;
     padding: 16px 18px;
-    background: linear-gradient(160deg, rgba(16, 29, 46, 0.96), rgba(20, 38, 59, 0.96));
+    background: linear-gradient(160deg, rgba(14, 20, 32, 0.97), rgba(19, 27, 42, 0.97));
     border: 1px solid var(--border-soft);
     border-left: 4px solid var(--primary-color);
     border-radius: var(--radius-md);
@@ -1014,7 +1049,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(4, 9, 16, 0.72);
+    background: rgba(3, 5, 10, 0.74);
     backdrop-filter: blur(6px);
     align-items: center;
     justify-content: center;
@@ -1124,7 +1159,7 @@ body.modal-open {
     justify-content: center;
     gap: 8px;
     background: var(--warning-bg);
-    border: 1px solid rgba(245, 166, 35, 0.3);
+    border: 1px solid rgba(240, 169, 52, 0.3);
     color: var(--warning);
     font-size: 13px;
     font-weight: 600;
@@ -1243,6 +1278,60 @@ body.modal-open {
 }
 
 /* =============================================================
+   HAMBURGER MENU (mobile navigation trigger)
+   Markup expected in the mobile topbar:
+     <button class="hamburger-btn" aria-label="Abrir menu" aria-expanded="false">
+       <span></span><span></span><span></span>
+     </button>
+   Toggle by adding/removing "is-open" on the button, "mobile-open"
+   on .sidebar and "open" on .sidebar-overlay. See the JS snippet
+   provided alongside this file.
+   ============================================================= */
+.hamburger-btn {
+    display: none; /* shown only on mobile, see media query below */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text-color);
+    transition: transform var(--transition), opacity var(--transition);
+}
+
+.hamburger-btn.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.hamburger-btn.is-open span:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-btn.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Dark scrim behind the off-canvas drawer */
+.sidebar-overlay {
+    display: none;
+}
+
+.sidebar-close {
+    display: none;
+}
+
+/* =============================================================
    RESPONSIVE — TABLET & DESKTOP
    ============================================================= */
 @media (min-width: 640px) {
@@ -1263,13 +1352,13 @@ body.modal-open {
     }
 
     .card {
-        padding: 44px 40px;
+        padding: 46px 42px;
     }
 
-    h1 { font-size: 30px; }
+    h1 { font-size: 32px; }
 
     .balance-card h2 {
-        font-size: 38px;
+        font-size: 40px;
     }
 
     .grid-yacht {
@@ -1277,7 +1366,7 @@ body.modal-open {
     }
 
     .sidebar {
-        width: 280px;
+        width: 284px;
         padding: 32px 20px;
     }
 
@@ -1286,21 +1375,78 @@ body.modal-open {
     }
 
     .page-title {
-        font-size: 27px;
+        font-size: 28px;
     }
 }
 
 /* =============================================================
-   RESPONSIVE — MOBILE
+   RESPONSIVE — MOBILE (hamburger navigation)
    ============================================================= */
 @media (max-width: 768px) {
     .app-layout {
         flex-direction: column;
     }
 
-    /* Desktop sidebar gives way to a top bar + bottom tab bar */
+    /* The sidebar becomes an off-canvas drawer instead of a static
+       column: hidden past the left edge until toggled open. */
     .sidebar {
-        display: none;
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 101;
+        width: min(84vw, 300px);
+        height: 100vh;
+        height: 100dvh;
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+        transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    .sidebar-close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 18px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-soft);
+        color: var(--text-muted);
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .sidebar-close:hover {
+        background: var(--danger-bg);
+        color: var(--danger);
+    }
+
+    /* Scrim behind the drawer, closes it on tap */
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(3, 5, 10, 0.6);
+        backdrop-filter: blur(3px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 220ms ease;
+    }
+
+    .sidebar-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
     }
 
     .mobile-topbar {
@@ -1312,9 +1458,13 @@ body.modal-open {
         position: sticky;
         top: 0;
         z-index: 40;
-        background: rgba(14, 24, 38, 0.9);
+        background: rgba(10, 13, 23, 0.92);
         border-bottom: 1px solid var(--border-soft);
         backdrop-filter: blur(16px);
+    }
+
+    .mobile-topbar .hamburger-btn {
+        display: flex;
     }
 
     .mobile-topbar .sidebar-brand {
@@ -1355,64 +1505,13 @@ body.modal-open {
 
     .icon-btn-danger:hover {
         background: var(--danger-bg);
-        border-color: rgba(242, 73, 92, 0.35);
+        border-color: rgba(239, 74, 94, 0.35);
         color: var(--danger);
     }
 
     .main-content {
-        padding: 20px 16px 96px 16px;
+        padding: 20px 16px 40px 16px;
         max-width: 100%;
-    }
-
-    .mobile-bottom-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: stretch;
-        gap: 2px;
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 40;
-        padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px)) 8px;
-        background: rgba(14, 24, 38, 0.92);
-        border-top: 1px solid var(--border-soft);
-        backdrop-filter: blur(16px);
-    }
-
-    .mobile-bottom-nav .nav-item {
-        flex-direction: column;
-        gap: 3px;
-        flex: 1;
-        padding: 6px 2px;
-        border-radius: 10px;
-        font-size: 10.5px;
-        text-align: center;
-        justify-content: center;
-    }
-
-    .mobile-bottom-nav .nav-item span {
-        white-space: nowrap;
-    }
-
-    .mobile-bottom-nav .nav-item .nav-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .mobile-bottom-nav .nav-item.active {
-        background: rgba(32, 178, 170, 0.14);
-    }
-
-    .mobile-bottom-nav .nav-item.active::before {
-        left: 50%;
-        top: auto;
-        bottom: -4px;
-        transform: translateX(-50%);
-        width: 18px;
-        height: 3px;
-        border-radius: 4px 4px 0 0;
-        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
     }
 }
 
@@ -1427,7 +1526,7 @@ body.modal-open {
     }
 
     .card {
-        padding: 26px 20px;
+        padding: 28px 20px;
         border-radius: var(--radius-md);
     }
 
@@ -1443,7 +1542,7 @@ body.modal-open {
     }
 
     .balance-card h2 {
-        font-size: 26px;
+        font-size: 27px;
     }
 
     .balance-actions {
