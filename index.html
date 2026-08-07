@@ -9,46 +9,87 @@
 <body class="app-body">
     <div class="app-layout">
 
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR (desktop / tablet) -->
         <aside class="sidebar">
             <div class="sidebar-brand">
                 <img src="logo.png" alt="Logo" class="brand-logo">
-                <span class="brand-name">YACHTINCASH 🐳</span>
+                <span class="brand-name">YACHTINCASH</span>
             </div>
 
             <nav class="sidebar-nav">
                 <button class="nav-item active" data-section="inicio">
-                    <span class="nav-icon">🏠</span> Início
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h3v-6h4v6h3a1 1 0 0 0 1-1v-9"/></svg>
+                    <span>Início</span>
                 </button>
                 <button class="nav-item" data-section="investir">
-                    <span class="nav-icon">📈</span> Investir
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M22 19H2"/></svg>
+                    <span>Investir</span>
                 </button>
                 <button class="nav-item" data-section="carteira">
-                    <span class="nav-icon">💼</span> Carteira
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="13" rx="2.2"/><path d="M2.5 10.5h19"/><path d="M16.5 14.5h2.5"/></svg>
+                    <span>Carteira</span>
                 </button>
                 <button class="nav-item" data-section="equipe">
-                    <span class="nav-icon">👥</span> Equipe
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19.2c.7-3.1 3.1-5 6.2-5s5.5 1.9 6.2 5"/><circle cx="17.5" cy="8.8" r="2.4"/><path d="M16 11.5c1.9.4 3.3 1.7 3.9 3.9"/></svg>
+                    <span>Equipe</span>
                 </button>
                 <button class="nav-item" data-section="extrato">
-                    <span class="nav-icon">🧾</span> Extrato
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M9 12h6M9 16h6M9 8h2"/></svg>
+                    <span>Extrato</span>
                 </button>
                 <button class="nav-item" data-section="perfil">
-                    <span class="nav-icon">👤</span> Perfil
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 19.5c1.1-3.6 4-5.6 7.5-5.6s6.4 2 7.5 5.6"/></svg>
+                    <span>Perfil</span>
                 </button>
             </nav>
 
             <div class="sidebar-footer">
                 <a href="https://t.me/yachtincash" target="_blank" class="telegram-btn" title="Grupo Oficial no Telegram">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                        <path d="M21.945 2.352a1.6 1.6 0 0 0-1.64-.276L2.4 9.24c-1.12.44-1.11 2.02.02 2.44l4.63 1.73 1.79 5.76c.24.77 1.23.98 1.77.38l2.5-2.77 4.62 3.42c.83.61 2.02.16 2.24-.85l3.29-15.03c.14-.63-.1-1.28-.3-1.46zM9.1 13.62l-.4 3.86-1.3-4.18 9.9-6.53c.2-.13.42.13.24.29z"/>
-                    </svg>
-                    Telegram
+                    <span class="telegram-mark" aria-hidden="true">
+                        <svg viewBox="0 0 240 240" width="22" height="22">
+                            <circle cx="120" cy="120" r="120" fill="url(#tg-grad)"/>
+                            <path fill="#fff" d="M170.6 72.3 149.2 178c-1.6 7.1-5.8 8.8-11.7 5.5l-32.4-23.9-15.6 15c-1.7 1.7-3.2 3.2-6.5 3.2l2.3-33.1 60.3-54.5c2.6-2.3-.6-3.6-4.1-1.3l-74.6 47-32.1-10c-7-2.2-7.1-7 1.5-10.3l125.5-48.4c5.8-2.1 10.9 1.4 9 10.1Z"/>
+                            <defs>
+                                <linearGradient id="tg-grad" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0" stop-color="#54c6eb"/>
+                                    <stop offset="1" stop-color="#1e96c8"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </span>
+                    <span>Telegram</span>
                 </a>
                 <button onclick="Auth.logout()" class="logout-btn">
-                    <span class="nav-icon">🚪</span> Sair
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15.5 16.5 20 12l-4.5-4.5"/><path d="M20 12H9"/></svg>
+                    <span>Sair</span>
                 </button>
             </div>
         </aside>
+
+        <!-- TOP BAR (mobile only) -->
+        <header class="mobile-topbar">
+            <div class="sidebar-brand">
+                <img src="logo.png" alt="Logo" class="brand-logo">
+                <span class="brand-name">YACHTINCASH</span>
+            </div>
+            <div class="mobile-topbar-actions">
+                <a href="https://t.me/yachtincash" target="_blank" class="icon-btn icon-btn-telegram" title="Grupo Oficial no Telegram">
+                    <svg viewBox="0 0 240 240" width="20" height="20">
+                        <circle cx="120" cy="120" r="120" fill="url(#tg-grad-m)"/>
+                        <path fill="#fff" d="M170.6 72.3 149.2 178c-1.6 7.1-5.8 8.8-11.7 5.5l-32.4-23.9-15.6 15c-1.7 1.7-3.2 3.2-6.5 3.2l2.3-33.1 60.3-54.5c2.6-2.3-.6-3.6-4.1-1.3l-74.6 47-32.1-10c-7-2.2-7.1-7 1.5-10.3l125.5-48.4c5.8-2.1 10.9 1.4 9 10.1Z"/>
+                        <defs>
+                            <linearGradient id="tg-grad-m" x1="0" y1="0" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+                                <stop offset="0" stop-color="#54c6eb"/>
+                                <stop offset="1" stop-color="#1e96c8"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </a>
+                <button onclick="Auth.logout()" class="icon-btn icon-btn-danger" title="Sair">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3"/><path d="M15.5 16.5 20 12l-4.5-4.5"/><path d="M20 12H9"/></svg>
+                </button>
+            </div>
+        </header>
 
         <!-- MAIN CONTENT -->
         <main class="main-content">
@@ -169,6 +210,34 @@
             </section>
 
         </main>
+
+        <!-- BOTTOM NAV (mobile only) -->
+        <nav class="mobile-bottom-nav">
+            <button class="nav-item active" data-section="inicio">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h3v-6h4v6h3a1 1 0 0 0 1-1v-9"/></svg>
+                <span>Início</span>
+            </button>
+            <button class="nav-item" data-section="investir">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V9"/><path d="M10 19V5"/><path d="M16 19v-7"/><path d="M22 19H2"/></svg>
+                <span>Investir</span>
+            </button>
+            <button class="nav-item" data-section="carteira">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="13" rx="2.2"/><path d="M2.5 10.5h19"/><path d="M16.5 14.5h2.5"/></svg>
+                <span>Carteira</span>
+            </button>
+            <button class="nav-item" data-section="equipe">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.8 19.2c.7-3.1 3.1-5 6.2-5s5.5 1.9 6.2 5"/><circle cx="17.5" cy="8.8" r="2.4"/><path d="M16 11.5c1.9.4 3.3 1.7 3.9 3.9"/></svg>
+                <span>Equipe</span>
+            </button>
+            <button class="nav-item" data-section="extrato">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M9 12h6M9 16h6M9 8h2"/></svg>
+                <span>Extrato</span>
+            </button>
+            <button class="nav-item" data-section="perfil">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 19.5c1.1-3.6 4-5.6 7.5-5.6s6.4 2 7.5 5.6"/></svg>
+                <span>Perfil</span>
+            </button>
+        </nav>
     </div>
 
     <script src="auth.js"></script>
