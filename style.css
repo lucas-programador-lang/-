@@ -253,6 +253,36 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     cursor: not-allowed;
 }
 
+/* Campo de senha com botão de mostrar/ocultar (olhinho) */
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 46px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 16px;
+    line-height: 1;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--text-muted);
+    border-radius: 6px;
+    transition: color var(--transition), background var(--transition);
+}
+
+.toggle-password:hover {
+    color: var(--text-color);
+    background: rgba(255, 255, 255, 0.06);
+}
+
 /* =============================================================
    BUTTONS
    ============================================================= */
