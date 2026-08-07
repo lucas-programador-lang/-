@@ -29,8 +29,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 modal.classList.remove('open');
             });
             document.body.classList.remove('modal-open');
+            closeSidebar();
         }
     });
+
+    // ===== Menu hambúrguer (gaveta lateral no mobile) =====
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const sidebarCloseBtn = document.getElementById('sidebarClose');
+
+    function openSidebar() {
+        if (!sidebar) return;
+        sidebar.classList.add('mobile-open');
+        sidebarOverlay.classList.add('open');
+        hamburgerBtn.classList.add('is-open');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('modal-open'); // reaproveita o travamento de scroll
+    }
+
+    function closeSidebar() {
+        if (!sidebar) return;
+        sidebar.classList.remove('mobile-open');
+        sidebarOverlay.classList.remove('open');
+        hamburgerBtn.classList.remove('is-open');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('modal-open');
+    }
+
+    if (hamburgerBtn && sidebar && sidebarOverlay) {
+        hamburgerBtn.addEventListener('click', () => {
+            const isOpen = sidebar.classList.contains('mobile-open');
+            isOpen ? closeSidebar() : openSidebar();
+        });
+        sidebarOverlay.addEventListener('click', closeSidebar);
+        sidebarCloseBtn?.addEventListener('click', closeSidebar);
+    }
 
     // ===== Toasts (substitui os alert() nativos do navegador) =====
     window.showToast = function (type, title, message) {
@@ -90,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 text: pixCode,
                 width: 200,
                 height: 200,
-                colorDark: '#0b1420',
+                colorDark: '#0e1420',
                 colorLight: '#ffffff'
             });
         } else {
@@ -220,6 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
         navItems.forEach((item) => {
             item.addEventListener('click', () => {
                 showSection(item.dataset.section);
+                // No mobile, a navegação acontece dentro da gaveta — fecha ao escolher uma seção
+                closeSidebar();
             });
         });
 
