@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const savedBalance = localStorage.getItem('yacht_balance') || '5.00';
 
             // Atualiza o saldo em todos os lugares onde ele aparece (Início, Carteira, Perfil)
-            const balanceTargets = ['userBalance'];
+            const balanceTargets = ['userBalance', 'sacarSaldoDisponivel'];
             balanceTargets.forEach((id) => {
                 const el = document.getElementById(id);
                 if (el) el.innerText = `R$ ${savedBalance}`;
