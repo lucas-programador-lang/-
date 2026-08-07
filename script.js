@@ -1,4 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ===== Modais (ex: Depositar) =====
+    window.openModal = function (modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.add('open');
+            document.body.classList.add('modal-open');
+        }
+    };
+
+    window.closeModal = function (modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.classList.remove('open');
+            document.body.classList.remove('modal-open');
+        }
+    };
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-overlay.open').forEach((modal) => {
+                modal.classList.remove('open');
+            });
+            document.body.classList.remove('modal-open');
+        }
+    });
+
     // Tratamento do formulário de Login
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
