@@ -262,6 +262,14 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     cursor: not-allowed;
 }
 
+/* A lista de opções do <select> é renderizada pelo navegador com a
+   paleta padrão dele; forçamos fundo/texto escuros para não ficar
+   branca ao abrir (suportado no Chrome, Edge e Firefox). */
+.form-group select option {
+    background-color: var(--bg-card-2);
+    color: var(--text-color);
+}
+
 /* Campo de senha com botão de mostrar/ocultar (olhinho) */
 .password-field {
     position: relative;
