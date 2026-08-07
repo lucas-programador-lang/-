@@ -1106,6 +1106,10 @@ body.modal-open {
 }
 
 /* Tela de QR Code Pix (modal de Depositar) */
+#depositQrView {
+    margin-top: 20px;
+}
+
 .pix-waiting {
     display: flex;
     align-items: center;
@@ -1159,20 +1163,6 @@ body.modal-open {
     color: var(--text-muted);
     text-align: left;
     word-break: break-all;
-}
-
-.pix-change-link {
-    text-align: center;
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--accent-color);
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-
-.pix-change-link:hover {
-    color: var(--accent-soft);
 }
 
 .withdraw-summary {
