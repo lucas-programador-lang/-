@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YACHTINCASH - Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body class="app-body">
     <div class="app-layout">
@@ -313,33 +314,52 @@
         <div class="modal-card card">
             <button class="modal-close" onclick="closeModal('depositModal')" aria-label="Fechar">&times;</button>
 
-            <h2 style="text-align:left;">Realizar Depósito</h2>
-            <p class="subtitle" style="text-align:left; margin-bottom: 22px;">Selecione o plano desejado e gere o seu QR Code Pix.</p>
+            <!-- Etapa 1: formulário -->
+            <div id="depositFormView">
+                <h2 style="text-align:left;">Realizar Depósito</h2>
+                <p class="subtitle" style="text-align:left; margin-bottom: 22px;">Selecione o plano desejado e gere o seu QR Code Pix.</p>
 
-            <div class="form-group">
-                <label for="depositPlano">Valor do Plano / Depósito (R$)</label>
-                <select id="depositPlano">
-                    <option value="teste-20">YACHT Teste — Investimento: R$ 20,00</option>
-                    <option value="irwin-50">YACHT IRWIN — Investimento: R$ 50,00</option>
-                    <option value="hunter-150">YACHT HUNTER — Investimento: R$ 150,00</option>
-                </select>
+                <div class="form-group">
+                    <label for="depositPlano">Valor do Plano / Depósito (R$)</label>
+                    <select id="depositPlano">
+                        <option value="teste-20">YACHT Teste — Investimento: R$ 20,00</option>
+                        <option value="irwin-50">YACHT IRWIN — Investimento: R$ 50,00</option>
+                        <option value="hunter-150">YACHT HUNTER — Investimento: R$ 150,00</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="depositCpf">CPF (obrigatório para gerar o Pix)</label>
+                    <input type="text" id="depositCpf" placeholder="000.000.000-00">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 22px;">
+                    <label for="depositTelefone">Telefone (obrigatório para gerar o Pix)</label>
+                    <input type="text" id="depositTelefone" placeholder="(00) 00000-0000">
+                </div>
+
+                <button class="btn" onclick="gerarQrCodeDeposito()">Gerar QR Code Pix</button>
+
+                <div class="modal-actions">
+                    <button class="btn btn-outline" onclick="closeModal('depositModal')">Cancelar</button>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="depositCpf">CPF (obrigatório para gerar o Pix)</label>
-                <input type="text" id="depositCpf" placeholder="000.000.000-00">
-            </div>
+            <!-- Etapa 2: QR Code Pix gerado -->
+            <div id="depositQrView" style="display:none;">
+                <div class="pix-waiting">⏳ Aguardando confirmação do pagamento...</div>
 
-            <div class="form-group" style="margin-bottom: 22px;">
-                <label for="depositTelefone">Telefone (obrigatório para gerar o Pix)</label>
-                <input type="text" id="depositTelefone" placeholder="(00) 00000-0000">
-            </div>
+                <div class="pix-qr-panel">
+                    <p><strong>Escaneie o QR Code abaixo para pagar:</strong></p>
+                    <div id="qrcodeCanvas"></div>
+                    <div class="pix-code-box" id="depositPixCode"></div>
+                </div>
 
-            <button class="btn" onclick="alert('Gerando QR Code Pix...')">Gerar QR Code Pix</button>
-            <button class="btn btn-outline" onclick="navigator.clipboard.writeText('00020126580014BR.GOV.BCB.PIX').then(() => alert('Código Pix copiado!'))">Copiar Código Pix</button>
+                <button class="btn btn-outline" onclick="copiarCodigoPixDeposito()">Copiar código Pix</button>
 
-            <div class="modal-actions">
-                <button class="btn btn-outline" onclick="closeModal('depositModal')">Cancelar</button>
+                <div class="modal-actions">
+                    <button class="btn btn-outline" onclick="voltarFormularioDeposito()">Cancelar</button>
+                </div>
             </div>
         </div>
     </div>
