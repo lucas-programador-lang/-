@@ -151,6 +151,38 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(pixCode).then(() => showToast('success', 'Código Pix copiado!'));
     };
 
+    // ===== Solicitação de Saque (modal de Sacar) =====
+    const SAQUE_VALOR_MINIMO = 30;
+
+    window.solicitarSaque = function () {
+        const valorInput = document.getElementById('sacarValor');
+        const valorTexto = valorInput.value.trim();
+        const valor = parseFloat(valorTexto);
+
+        if (!valorTexto || isNaN(valor)) {
+            showToast('warning', 'Valor obrigatório', 'Digite o valor que deseja sacar.');
+            valorInput.focus();
+            return;
+        }
+
+        if (valor < SAQUE_VALOR_MINIMO) {
+            showToast('warning', 'Valor mínimo não atingido', `O valor mínimo para saque é R$ ${SAQUE_VALOR_MINIMO.toFixed(2).replace('.', ',')}.`);
+            valorInput.focus();
+            return;
+        }
+
+        const saldoAtual = parseFloat((localStorage.getItem('yacht_balance') || '5.00').replace(',', '.'));
+        if (valor > saldoAtual) {
+            showToast('warning', 'Saldo insuficiente', 'O valor solicitado é maior que o seu saldo disponível.');
+            valorInput.focus();
+            return;
+        }
+
+        showToast('success', 'Solicitação de saque enviada!', `Valor: R$ ${valor.toFixed(2).replace('.', ',')}`);
+        valorInput.value = '';
+        closeModal('sacarModal');
+    };
+
     // Tratamento do formulário de Login
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
