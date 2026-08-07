@@ -67,6 +67,82 @@ const Auth = {
     }
 };
 
+// =====================================================================
+// Sistema de Toast (substitui o alert() nativo do navegador)
+// =====================================================================
+const Toast = {
+    _container: null,
+    _icons: {
+        success: '✓',
+        error: '✕',
+        warning: '!',
+        info: 'i'
+    },
+    _titles: {
+        success: 'Sucesso',
+        error: 'Erro',
+        warning: 'Atenção',
+        info: 'Aviso'
+    },
+    _getContainer() {
+        if (!this._container) {
+            this._container = document.createElement('div');
+            this._container.className = 'toast-container';
+            document.body.appendChild(this._container);
+        }
+        return this._container;
+    },
+    show(type, message, title) {
+        const container = this._getContainer();
+
+        const toastEl = document.createElement('div');
+        toastEl.className = `toast toast-${type}`;
+
+        const iconEl = document.createElement('div');
+        iconEl.className = 'toast-icon';
+        iconEl.textContent = this._icons[type] || this._icons.info;
+
+        const bodyEl = document.createElement('div');
+        bodyEl.className = 'toast-body';
+
+        const titleEl = document.createElement('div');
+        titleEl.className = 'toast-title';
+        titleEl.textContent = title || this._titles[type] || this._titles.info;
+
+        const messageEl = document.createElement('div');
+        messageEl.className = 'toast-message';
+        messageEl.textContent = message;
+
+        bodyEl.appendChild(titleEl);
+        bodyEl.appendChild(messageEl);
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'toast-close';
+        closeBtn.setAttribute('aria-label', 'Fechar aviso');
+        closeBtn.textContent = '×';
+
+        toastEl.appendChild(iconEl);
+        toastEl.appendChild(bodyEl);
+        toastEl.appendChild(closeBtn);
+        container.appendChild(toastEl);
+
+        const remove = () => {
+            toastEl.classList.add('hide');
+            toastEl.addEventListener('animationend', () => toastEl.remove(), { once: true });
+        };
+
+        closeBtn.addEventListener('click', remove);
+        const autoCloseTimer = setTimeout(remove, 4000);
+        closeBtn.addEventListener('click', () => clearTimeout(autoCloseTimer));
+
+        return toastEl;
+    },
+    success(message, title) { return this.show('success', message, title); },
+    error(message, title) { return this.show('error', message, title); },
+    warning(message, title) { return this.show('warning', message, title); },
+    info(message, title) { return this.show('info', message, title); }
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     // Botão de olhinho para mostrar/ocultar senha (login e cadastro)
     const eyeOpenIcon = `<svg class="icon-eye" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -105,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!emailInput || !passwordInput) {
                 console.error('Campos de e-mail/senha não encontrados no formulário de login.');
-                alert('Erro no formulário. Tente recarregar a página.');
+                Toast.error('Erro no formulário. Tente recarregar a página.');
                 return;
             }
 
@@ -114,13 +190,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 if (Auth.login(email, pass)) {
-                    window.location.href = 'index.html';
+                    Toast.success('Login realizado! Redirecionando...');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1200);
                 } else {
-                    alert('E-mail ou senha incorretos!');
+                    Toast.error('E-mail ou senha incorretos!');
                 }
             } catch (err) {
                 console.error('Erro ao tentar login:', err);
-                alert('Erro ao realizar login.');
+                Toast.error('Erro ao realizar login.');
             }
         });
     }
@@ -136,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!regNameInput || !regEmailInput || !regPassInput) {
                 console.error('Campos de nome/e-mail/senha não encontrados no formulário de registro.');
-                alert('Erro no formulário. Tente recarregar a página.');
+                Toast.error('Erro no formulário. Tente recarregar a página.');
                 return;
             }
 
@@ -146,14 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 if (Auth.register(fullName, email, pass)) {
-                    alert('Cadastro realizado com sucesso! Você ganhou R$ 5,00.');
-                    window.location.href = 'index.html';
+                    Toast.success('Cadastro realizado com sucesso! Você ganhou R$ 5,00.');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
                 } else {
-                    alert('Erro ao realizar cadastro. Esse e-mail já pode estar cadastrado.');
+                    Toast.error('Esse e-mail já pode estar cadastrado.');
                 }
             } catch (err) {
                 console.error('Erro ao tentar cadastro:', err);
-                alert('Erro ao realizar cadastro.');
+                Toast.error('Erro ao realizar cadastro.');
             }
         });
     }
