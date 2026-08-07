@@ -135,21 +135,21 @@
                         <p>Investimento: R$ 20,00</p>
                         <p>Retorno Diário: R$ 2,50</p>
                         <p>Duração: 4 dias</p>
-                        <button class="btn" onclick="alert('Plano selecionado!')">Alugar</button>
+                        <button class="btn" onclick="showToast('success', 'Plano selecionado!')">Alugar</button>
                     </div>
                     <div class="yacht-card">
                         <h3>YACHT IRWIN</h3>
                         <p>Investimento: R$ 50,00</p>
                         <p>Retorno Diário: R$ 3,35</p>
                         <p>Duração: 30 dias</p>
-                        <button class="btn" onclick="alert('Plano selecionado!')">Alugar</button>
+                        <button class="btn" onclick="showToast('success', 'Plano selecionado!')">Alugar</button>
                     </div>
                     <div class="yacht-card">
                         <h3>YACHT HUNTER</h3>
                         <p>Investimento: R$ 150,00</p>
                         <p>Retorno Diário: R$ 9,00</p>
                         <p>Duração: 30 dias</p>
-                        <button class="btn" onclick="alert('Plano selecionado!')">Alugar</button>
+                        <button class="btn" onclick="showToast('success', 'Plano selecionado!')">Alugar</button>
                     </div>
                 </div>
             </section>
@@ -197,7 +197,7 @@
                     <p><strong>Seu link de indicação</strong></p>
                     <div class="ref-link-row">
                         <input type="text" id="refLink" class="ref-input" readonly value="https://yachtincash.com/register?ref=SEUUSUARIO">
-                        <button class="btn btn-compact" onclick="navigator.clipboard.writeText(document.getElementById('refLink').value); alert('Link copiado!');">Copiar</button>
+                        <button class="btn btn-compact" onclick="navigator.clipboard.writeText(document.getElementById('refLink').value); showToast('success', 'Link copiado!');">Copiar</button>
                     </div>
                 </div>
 
@@ -285,7 +285,7 @@
                     </div>
                 </div>
 
-                <button class="btn" onclick="alert('Alterações salvas!')">Salvar Alterações</button>
+                <button class="btn" onclick="showToast('success', 'Alterações salvas!')">Salvar Alterações</button>
             </section>
 
         </main>
@@ -373,13 +373,16 @@
 
             <p class="muted withdraw-days">Saques disponíveis de Terça a Sexta, das 10h às 17h.</p>
 
-            <button class="btn btn-success" onclick="alert('Solicitação de saque enviada!')">Solicitar Saque</button>
+            <button class="btn btn-success" onclick="showToast('success', 'Solicitação de saque enviada!')">Solicitar Saque</button>
 
             <div class="modal-actions">
                 <button class="btn btn-outline" onclick="closeModal('sacarModal')">Cancelar</button>
             </div>
         </div>
     </div>
+
+    <!-- Toasts (substitui os alert() nativos do navegador) -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <script src="auth.js"></script>
     <script src="script.js"></script>
