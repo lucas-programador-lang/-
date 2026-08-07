@@ -654,9 +654,16 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     display: none;
 }
 
-/* Botão hamburger — vira "X" quando o menu está aberto */
+.mobile-topbar-start {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Botão hamburger — vira "X" quando .is-open é aplicado pelo JS */
 .hamburger-btn {
     display: none;
+    position: relative;
     flex-shrink: 0;
     width: 40px;
     height: 40px;
@@ -674,37 +681,58 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     border-color: var(--border-primary);
 }
 
-.hamburger-btn .hamburger-lines {
-    position: relative;
-    width: 18px;
-    height: 13px;
-}
-
-.hamburger-btn .hamburger-lines span {
+/* O JS cria 3 <span> soltos dentro do botão — posicionamos cada um
+   de forma independente para animar em "X" */
+.hamburger-btn span {
     position: absolute;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    width: 18px;
     height: 2px;
     border-radius: 2px;
     background: var(--text-color);
+    transform: translateX(-50%);
     transition: transform var(--transition-slow), opacity var(--transition-slow), top var(--transition-slow);
 }
 
-.hamburger-btn .hamburger-lines span:nth-child(1) { top: 0; }
-.hamburger-btn .hamburger-lines span:nth-child(2) { top: 5.5px; }
-.hamburger-btn .hamburger-lines span:nth-child(3) { top: 11px; }
+.hamburger-btn span:nth-child(1) { top: 13px; }
+.hamburger-btn span:nth-child(2) { top: 19px; }
+.hamburger-btn span:nth-child(3) { top: 25px; }
 
-/* Estado aberto: o próprio body ganha esta classe via JS */
-body.menu-open .hamburger-btn .hamburger-lines span:nth-child(1) {
-    top: 5.5px;
-    transform: rotate(45deg);
+/* Estado aberto: o botão recebe a classe .is-open via JS */
+.hamburger-btn.is-open span:nth-child(1) {
+    top: 19px;
+    transform: translateX(-50%) rotate(45deg);
 }
-body.menu-open .hamburger-btn .hamburger-lines span:nth-child(2) {
+.hamburger-btn.is-open span:nth-child(2) {
     opacity: 0;
 }
-body.menu-open .hamburger-btn .hamburger-lines span:nth-child(3) {
-    top: 5.5px;
-    transform: rotate(-45deg);
+.hamburger-btn.is-open span:nth-child(3) {
+    top: 19px;
+    transform: translateX(-50%) rotate(-45deg);
+}
+
+/* Botão "X" de fechar no topo da própria sidebar (mobile) */
+.sidebar-close {
+    display: none;
+    align-self: flex-end;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-soft);
+    border-radius: 50%;
+    color: var(--text-muted);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background var(--transition), color var(--transition);
+}
+
+.sidebar-close:hover {
+    background: var(--danger-bg);
+    color: var(--danger);
 }
 
 .page-section {
@@ -1450,8 +1478,13 @@ body.modal-open {
         box-shadow: var(--shadow-lg);
     }
 
-    body.menu-open .sidebar {
+    .sidebar.mobile-open {
         transform: translateX(0);
+    }
+
+    /* Botão de fechar dentro da gaveta só faz sentido no mobile */
+    .sidebar-close {
+        display: flex;
     }
 
     /* Overlay escuro atrás do drawer, fecha o menu ao ser tocado */
@@ -1467,13 +1500,9 @@ body.modal-open {
         transition: opacity var(--transition-slow);
     }
 
-    body.menu-open .sidebar-overlay {
+    .sidebar-overlay.open {
         opacity: 1;
         pointer-events: auto;
-    }
-
-    body.menu-open {
-        overflow: hidden;
     }
 
     /* Barra fixa no topo com marca + botão hamburger */
