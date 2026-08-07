@@ -999,6 +999,72 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 /* =============================================================
+   MODAL
+   ============================================================= */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(4, 9, 16, 0.72);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.open {
+    display: flex;
+    animation: modal-fade 200ms ease both;
+}
+
+@keyframes modal-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    text-align: left;
+}
+
+.modal-card h2 {
+    margin-bottom: 6px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-soft);
+    border-radius: 50%;
+    color: var(--text-muted);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background var(--transition), color var(--transition);
+}
+
+.modal-close:hover {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+/* =============================================================
    LOADER
    ============================================================= */
 .spinner {
