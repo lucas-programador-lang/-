@@ -3,6 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.openModal = function (modalId) {
         const modal = document.getElementById(modalId);
         if (modal) {
+            if (modalId === 'depositModal') {
+                const formView = document.getElementById('depositFormView');
+                const qrView = document.getElementById('depositQrView');
+                if (formView && qrView) {
+                    formView.style.display = 'block';
+                    qrView.style.display = 'none';
+                    document.getElementById('qrcodeCanvas').innerHTML = '';
+                }
+            }
             modal.classList.add('open');
             document.body.classList.add('modal-open');
         }
@@ -24,6 +33,51 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('modal-open');
         }
     });
+
+    // ===== QR Code Pix (modal de Depositar) =====
+    window.gerarQrCodeDeposito = function () {
+        const cpfInput = document.getElementById('depositCpf');
+        const telefoneInput = document.getElementById('depositTelefone');
+
+        if (!cpfInput.value.trim() || !telefoneInput.value.trim()) {
+            alert('Preencha CPF e Telefone para gerar o Pix.');
+            return;
+        }
+
+        // Código Pix "copia e cola" (exemplo — substituir pela integração real do gateway)
+        const pixCode = '00020126580014BR.GOV.BCB.PIX2572qrcode.cartwavehub.com.br/v2/qr/cob/945c7fe1-5dc0-49a1-be8d-041bf95642e05204000053039865802BR5925PLATAFORMA6009SAO PAULO62070503***6304ABCD';
+
+        const qrContainer = document.getElementById('qrcodeCanvas');
+        qrContainer.innerHTML = '';
+
+        if (typeof QRCode !== 'undefined') {
+            new QRCode(qrContainer, {
+                text: pixCode,
+                width: 200,
+                height: 200,
+                colorDark: '#0b1420',
+                colorLight: '#ffffff'
+            });
+        } else {
+            console.error('Biblioteca QRCode não carregada.');
+            qrContainer.innerText = 'Não foi possível gerar o QR Code.';
+        }
+
+        document.getElementById('depositPixCode').innerText = pixCode;
+        document.getElementById('depositFormView').style.display = 'none';
+        document.getElementById('depositQrView').style.display = 'block';
+    };
+
+    window.copiarCodigoPixDeposito = function () {
+        const pixCode = document.getElementById('depositPixCode').innerText;
+        navigator.clipboard.writeText(pixCode).then(() => alert('Código Pix copiado!'));
+    };
+
+    window.voltarFormularioDeposito = function () {
+        document.getElementById('depositQrView').style.display = 'none';
+        document.getElementById('depositFormView').style.display = 'block';
+        document.getElementById('qrcodeCanvas').innerHTML = '';
+    };
 
     // Tratamento do formulário de Login
     const loginForm = document.getElementById('loginForm');
