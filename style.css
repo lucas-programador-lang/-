@@ -1082,12 +1082,35 @@ body.modal-open {
     margin-top: 0;
 }
 
+/* Caixa de saldo no topo do modal de Saque, separada do restante */
+.withdraw-balance-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.withdraw-balance-box span {
+    color: var(--text-muted);
+}
+
+.withdraw-balance-box strong {
+    color: var(--success);
+    font-size: 18px;
+    font-weight: 700;
+}
+
 .withdraw-summary {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-soft);
     border-radius: var(--radius-sm);
     padding: 16px 18px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     display: flex;
     flex-direction: column;
     gap: 10px;
