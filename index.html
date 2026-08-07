@@ -145,14 +145,37 @@
 
             <!-- CARTEIRA -->
             <section class="page-section" id="section-carteira">
-                <h1 class="page-title">Carteira</h1>
-                <div class="balance-card">
-                    <span>Saldo Disponível</span>
-                    <h2 id="userBalanceCarteira">R$ 5,00</h2>
+                <h1 class="page-title">Minha Carteira de Planos</h1>
+
+                <div class="grid-stats">
+                    <div class="stat-card">
+                        <span>Total Investido em Planos</span>
+                        <h2 id="totalInvestidoPlanos">R$ 0,00</h2>
+                    </div>
+                    <div class="stat-card">
+                        <span>Rendimento Total dos Planos</span>
+                        <h2 id="rendimentoTotalPlanos">R$ 0,00</h2>
+                    </div>
                 </div>
+
+                <h3 class="section-subtitle">Planos Ativos e Rendimentos Diários</h3>
                 <div class="info-box">
-                    <p><strong>Meus Investimentos</strong></p>
-                    <p class="muted">Você ainda não possui planos ativos. Vá até <strong>Investir</strong> para alugar seu primeiro Yacht.</p>
+                    <table class="extrato-table">
+                        <thead>
+                            <tr>
+                                <th>Data da Ativação</th>
+                                <th>Plano / Valor</th>
+                                <th>Rendimento Diário</th>
+                                <th>Rendimento Acumulado</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="planosAtivosBody">
+                            <tr>
+                                <td colspan="5" class="muted">Você ainda não possui planos ativos. Vá até <strong>Investir</strong> para alugar seu primeiro Yacht.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
