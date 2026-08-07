@@ -4,10 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById(modalId);
         if (modal) {
             if (modalId === 'depositModal') {
-                const formView = document.getElementById('depositFormView');
                 const qrView = document.getElementById('depositQrView');
-                if (formView && qrView) {
-                    formView.style.display = 'block';
+                if (qrView) {
                     qrView.style.display = 'none';
                     document.getElementById('qrcodeCanvas').innerHTML = '';
                 }
@@ -64,19 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         document.getElementById('depositPixCode').innerText = pixCode;
-        document.getElementById('depositFormView').style.display = 'none';
         document.getElementById('depositQrView').style.display = 'block';
     };
 
     window.copiarCodigoPixDeposito = function () {
         const pixCode = document.getElementById('depositPixCode').innerText;
         navigator.clipboard.writeText(pixCode).then(() => alert('Código Pix copiado!'));
-    };
-
-    window.voltarFormularioDeposito = function () {
-        document.getElementById('depositQrView').style.display = 'none';
-        document.getElementById('depositFormView').style.display = 'block';
-        document.getElementById('qrcodeCanvas').innerHTML = '';
     };
 
     // Tratamento do formulário de Login
