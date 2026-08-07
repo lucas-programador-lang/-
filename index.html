@@ -245,8 +245,38 @@
 
             <!-- PERFIL -->
             <section class="page-section" id="section-perfil">
-                <h1 class="page-title">Perfil</h1>
-                <div class="info-box">
+                <h1 class="page-title">Configurações de Perfil</h1>
+                <p class="page-subtitle">Gerencie suas informações de cadastro e dados para recebimento via PIX.</p>
+
+                <h3 class="section-subtitle">Dados Pessoais</h3>
+                <div class="info-box form-box">
+                    <div class="form-group">
+                        <label for="perfilNomeCompleto">Nome Completo</label>
+                        <input type="text" id="perfilNomeCompleto" placeholder="Digite seu nome completo">
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Chave PIX Padrão para Saques</h3>
+                <div class="info-box form-box">
+                    <p class="muted form-box-note">Estes dados serão preenchidos automaticamente na solicitação de saque.</p>
+                    <div class="form-group">
+                        <label for="perfilTipoPix">Tipo de Chave PIX</label>
+                        <select id="perfilTipoPix">
+                            <option value="cpf">CPF</option>
+                            <option value="email">E-mail</option>
+                            <option value="telefone">Telefone</option>
+                            <option value="aleatoria">Chave Aleatória</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="perfilChavePix">Sua Chave PIX</label>
+                        <input type="text" id="perfilChavePix" placeholder="Digite sua chave PIX">
+                    </div>
+                </div>
+
+                <button class="btn" onclick="alert('Alterações salvas!')">Salvar Alterações</button>
+
+                <div class="info-box" style="margin-top: 22px;">
                     <p><strong>Usuário:</strong> <span id="perfilUsuario">-</span></p>
                     <p><strong>Saldo:</strong> <span id="perfilSaldo">-</span></p>
                 </div>
