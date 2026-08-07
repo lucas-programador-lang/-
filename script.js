@@ -5,10 +5,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (modal) {
             if (modalId === 'depositModal') {
                 const qrView = document.getElementById('depositQrView');
+                const modalCard = modal.querySelector('.modal-card');
                 if (qrView) {
                     qrView.style.display = 'none';
                     document.getElementById('qrcodeCanvas').innerHTML = '';
                 }
+                // Reseta o scroll: enquanto o QR não é gerado, o modal
+                // não precisa (nem deve) rolar.
+                if (modalCard) modalCard.classList.remove('has-scroll');
             }
             modal.classList.add('open');
             document.body.classList.add('modal-open');
@@ -134,6 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('depositPixCode').innerText = pixCode;
         document.getElementById('depositQrView').style.display = 'block';
+
+        // Só a partir daqui o modal pode precisar de scroll (o QR Code
+        // + código Pix aumentam a altura do conteúdo). Antes disso o
+        // formulário sempre cabe sem rolagem.
+        const modalCard = document.querySelector('#depositModal .modal-card');
+        if (modalCard) modalCard.classList.add('has-scroll');
     };
 
     window.copiarCodigoPixDeposito = function () {
