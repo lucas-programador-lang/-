@@ -32,13 +32,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ===== Toasts (substitui os alert() nativos do navegador) =====
+    window.showToast = function (type, title, message) {
+        const container = document.getElementById('toastContainer');
+        if (!container) {
+            // Fallback caso o container não exista na página
+            alert(message ? `${title}\n${message}` : title);
+            return;
+        }
+
+        const icons = { success: '✓', error: '✕', warning: '!', info: 'i' };
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type || 'info'}`;
+        toast.innerHTML = `
+            <div class="toast-icon">${icons[type] || icons.info}</div>
+            <div class="toast-body">
+                <div class="toast-title"></div>
+                ${message ? '<div class="toast-message"></div>' : ''}
+            </div>
+            <button class="toast-close" type="button" aria-label="Fechar">&times;</button>
+        `;
+        toast.querySelector('.toast-title').textContent = title;
+        if (message) {
+            toast.querySelector('.toast-message').textContent = message;
+        }
+
+        const removeToast = () => {
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 260);
+        };
+
+        toast.querySelector('.toast-close').addEventListener('click', removeToast);
+        setTimeout(removeToast, 4000);
+
+        container.appendChild(toast);
+    };
+
     // ===== QR Code Pix (modal de Depositar) =====
     window.gerarQrCodeDeposito = function () {
         const cpfInput = document.getElementById('depositCpf');
         const telefoneInput = document.getElementById('depositTelefone');
 
         if (!cpfInput.value.trim() || !telefoneInput.value.trim()) {
-            alert('Preencha CPF e Telefone para gerar o Pix.');
+            showToast('warning', 'Campos obrigatórios', 'Preencha CPF e Telefone para gerar o Pix.');
             return;
         }
 
@@ -67,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.copiarCodigoPixDeposito = function () {
         const pixCode = document.getElementById('depositPixCode').innerText;
-        navigator.clipboard.writeText(pixCode).then(() => alert('Código Pix copiado!'));
+        navigator.clipboard.writeText(pixCode).then(() => showToast('success', 'Código Pix copiado!'));
     };
 
     // Tratamento do formulário de Login
@@ -77,14 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             if (typeof Auth === 'undefined') {
                 console.error('Auth não está definido. Verifique se o script de autenticação foi carregado antes deste arquivo.');
-                alert('Erro ao carregar o sistema de login. Tente recarregar a página.');
+                showToast('error', 'Erro ao carregar o sistema de login', 'Tente recarregar a página.');
                 return;
             }
             const usernameInput = document.getElementById('username');
             const passwordInput = document.getElementById('password');
             if (!usernameInput || !passwordInput) {
                 console.error('Campos de usuário/senha não encontrados no formulário de login.');
-                alert('Erro no formulário. Tente recarregar a página.');
+                showToast('error', 'Erro no formulário', 'Tente recarregar a página.');
                 return;
             }
             const user = usernameInput.value;
@@ -93,11 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (Auth.login(user, pass)) {
                     window.location.href = 'index.html';
                 } else {
-                    alert('Preencha os campos corretamente!');
+                    showToast('error', 'Preencha os campos corretamente!');
                 }
             } catch (err) {
                 console.error('Erro ao tentar login:', err);
-                alert('Erro ao realizar login.');
+                showToast('error', 'Erro ao realizar login.');
             }
         });
     }
@@ -109,28 +146,28 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             if (typeof Auth === 'undefined') {
                 console.error('Auth não está definido. Verifique se o script de autenticação foi carregado antes deste arquivo.');
-                alert('Erro ao carregar o sistema de cadastro. Tente recarregar a página.');
+                showToast('error', 'Erro ao carregar o sistema de cadastro', 'Tente recarregar a página.');
                 return;
             }
             const regUserInput = document.getElementById('regUser');
             const regPassInput = document.getElementById('regPass');
             if (!regUserInput || !regPassInput) {
                 console.error('Campos de usuário/senha não encontrados no formulário de registro.');
-                alert('Erro no formulário. Tente recarregar a página.');
+                showToast('error', 'Erro no formulário', 'Tente recarregar a página.');
                 return;
             }
             const user = regUserInput.value;
             const pass = regPassInput.value;
             try {
                 if (Auth.register(user, pass)) {
-                    alert('Cadastro realizado com sucesso! Você ganhou R$ 5,00.');
-                    window.location.href = 'index.html';
+                    showToast('success', 'Cadastro realizado com sucesso!', 'Você ganhou R$ 5,00.');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1200);
                 } else {
-                    alert('Erro ao realizar cadastro.');
+                    showToast('error', 'Erro ao realizar cadastro.');
                 }
             } catch (err) {
                 console.error('Erro ao tentar cadastro:', err);
-                alert('Erro ao realizar cadastro.');
+                showToast('error', 'Erro ao realizar cadastro.');
             }
         });
     }
