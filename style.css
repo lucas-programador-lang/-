@@ -92,15 +92,11 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Dashboard/app pages (sidebar layout) stretch full-bleed instead of
-   centering a single card like the auth pages do */
 body.app-body {
     align-items: stretch;
     justify-content: flex-start;
 }
 
-/* Layered, premium backdrop: deep navy base + teal/cyan/indigo glows +
-   fine grid + soft grain + vignette, tuned for more depth than before */
 body::before {
     content: "";
     position: fixed;
@@ -134,7 +130,6 @@ body::after {
     color: #fff;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -153,7 +148,6 @@ body::after {
     background-clip: padding-box;
 }
 
-/* Visible keyboard focus for accessibility */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -185,7 +179,6 @@ input:focus-visible,
     animation: card-rise 550ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Fine gradient border ring for a jewelled, premium edge */
 .card::before {
     content: "";
     position: absolute;
@@ -200,7 +193,6 @@ input:focus-visible,
     opacity: 0.6;
 }
 
-/* Slow-moving sheen sweep across the card top for a subtle luxe glint */
 .card::after {
     content: "";
     position: absolute;
@@ -303,15 +295,11 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     cursor: not-allowed;
 }
 
-/* A lista de opções do <select> é renderizada pelo navegador com a
-   paleta padrão dele; forçamos fundo/texto escuros para não ficar
-   branca ao abrir (suportado no Chrome, Edge e Firefox). */
 .form-group select option {
     background-color: var(--bg-card-2);
     color: var(--text-color);
 }
 
-/* Campo de senha com botão de mostrar/ocultar (olhinho) */
 .password-field {
     position: relative;
 }
@@ -674,7 +662,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     gap: 12px;
 }
 
-/* Botão hamburger — vira "X" quando .is-open é aplicado pelo JS */
 .hamburger-btn {
     display: none;
     position: relative;
@@ -695,8 +682,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     border-color: var(--border-primary);
 }
 
-/* O JS cria 3 <span> soltos dentro do botão — posicionamos cada um
-   de forma independente para animar em "X" */
 .hamburger-btn span {
     position: absolute;
     left: 50%;
@@ -712,7 +697,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .hamburger-btn span:nth-child(2) { top: 19px; }
 .hamburger-btn span:nth-child(3) { top: 25px; }
 
-/* Estado aberto: o botão recebe a classe .is-open via JS */
 .hamburger-btn.is-open span:nth-child(1) {
     top: 19px;
     transform: translateX(-50%) rotate(45deg);
@@ -725,7 +709,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     transform: translateX(-50%) rotate(-45deg);
 }
 
-/* Botão "X" de fechar no topo da própria sidebar (mobile) */
 .sidebar-close {
     display: none;
     align-self: flex-end;
@@ -808,8 +791,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     margin-bottom: 16px;
 }
 
-/* Cards de seção usados no Perfil — borda completa ao redor (como o
-   card de login), em vez da barra lateral do .form-box */
 .profile-card {
     background: linear-gradient(160deg, var(--bg-card), var(--bg-card-2));
     border: 1px solid var(--border-primary);
@@ -939,7 +920,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     height: 16px;
 }
 
-/* Variante à esquerda dos stat-card, usada nos cards logo abaixo do saldo */
 .stat-card-left {
     text-align: left;
 }
@@ -951,8 +931,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     margin-bottom: 22px;
 }
 
-/* Campo de exibição do plano no modal de Depósito — mostra o plano
-   travado (sem select, sem escolha entre os 3) */
 .deposit-plano-display {
     width: 100%;
     padding: 13px 16px;
@@ -971,6 +949,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     border-radius: var(--radius-md);
     padding: 22px;
     text-align: center;
+    display: flex;
     flex-direction: column;
     transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
@@ -1100,6 +1079,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     color: var(--text-muted);
     border-left: 4px solid var(--primary-color);
     box-shadow: var(--shadow-sm);
+    margin-top: 20px;
 }
 
 .rules-box p {
@@ -1179,10 +1159,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 /* =============================================================
    EXTRATO
    ============================================================= */
-
-/* Contêiner com scroll horizontal PRÓPRIO para a tabela. Sem isso,
-   em telas estreitas a tabela é cortada pelo overflow-x: hidden do
-   body em vez de poder ser rolada — por isso este wrapper existe. */
 .table-scroll {
     width: 100%;
     overflow-x: auto;
@@ -1214,8 +1190,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     color: var(--text-color);
 }
 
-/* Célula "vazia" (mensagem de estado) pode quebrar linha normalmente,
-   ela não deve forçar a tabela a ficar larga */
 .extrato-table td[colspan] {
     white-space: normal;
     min-width: 0;
@@ -1274,8 +1248,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     position: relative;
 }
 
-/* Brilho ambiente atrás do toast, na cor do status — dá profundidade
-   sem pesar a leitura */
 .toast::before {
     content: "";
     position: absolute;
@@ -1416,10 +1388,6 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     text-align: left;
 }
 
-/* Por padrão o modal não rola — o formulário (Depositar ou Sacar)
-   sempre cabe sem scroll. Só quando o QR Code Pix é gerado o script
-   adiciona esta classe, porque aí o conteúdo cresce e passa a
-   precisar de uma rolagem interna. */
 .modal-card.has-scroll {
     max-height: calc(100vh - 40px);
     overflow-y: auto;
@@ -1475,7 +1443,6 @@ body.modal-open {
     margin-top: 0;
 }
 
-/* Caixa de saldo no topo do modal de Saque, separada do restante */
 .withdraw-balance-box {
     display: flex;
     align-items: center;
@@ -1498,7 +1465,6 @@ body.modal-open {
     font-weight: 700;
 }
 
-/* Tela de QR Code Pix (modal de Depositar) */
 #depositQrView {
     margin-top: 20px;
 }
@@ -1674,8 +1640,6 @@ body.modal-open {
         font-size: 28px;
     }
 
-    /* Micro-interação de elevação para cards no desktop, onde há
-       espaço/precisão de mouse para justificar o efeito */
     .stat-card,
     .header-dash {
         transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
@@ -1706,8 +1670,6 @@ body.modal-open {
         flex-direction: column;
     }
 
-    /* A sidebar deixa de ser uma coluna fixa e vira um drawer que
-       desliza a partir da esquerda, controlado pelo botão hamburger */
     .sidebar {
         position: fixed;
         top: 0;
@@ -1725,12 +1687,10 @@ body.modal-open {
         transform: translateX(0);
     }
 
-    /* Botão de fechar dentro da gaveta só faz sentido no mobile */
     .sidebar-close {
         display: flex;
     }
 
-    /* Overlay escuro atrás do drawer, fecha o menu ao ser tocado */
     .sidebar-overlay {
         display: block;
         position: fixed;
@@ -1748,7 +1708,6 @@ body.modal-open {
         pointer-events: auto;
     }
 
-    /* Barra fixa no topo com marca + botão hamburger */
     .mobile-topbar {
         display: flex;
         align-items: center;
@@ -1814,8 +1773,6 @@ body.modal-open {
         max-width: 100%;
     }
 
-    /* O menu inferior antigo some: toda a navegação mobile agora
-       acontece pelo drawer do hamburger */
     .mobile-bottom-nav {
         display: none !important;
     }
@@ -1898,7 +1855,6 @@ body.modal-open {
     }
 }
 
-/* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.001ms !important;
