@@ -1471,17 +1471,35 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     min-height: 32px;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border-soft);
     border-radius: 50%;
     color: var(--text-muted);
-    font-size: 20px;
-    line-height: 1;
+    font-size: 0;
+    line-height: 0;
     cursor: pointer;
     transition: background var(--transition), color var(--transition);
+}
+
+.modal-close::before,
+.modal-close::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 13px;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+}
+
+.modal-close::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.modal-close::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .modal-close:hover {
