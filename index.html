@@ -346,8 +346,13 @@
             <h2 style="text-align:left;">Realizar Depósito</h2>
             <p class="subtitle" style="text-align:left; margin-bottom: 22px;">Selecione o plano desejado e gere o seu QR Code Pix.</p>
             <div class="form-group">
-                <label>Plano / Depósito (R$)</label>
-                <div class="deposit-plano-display" id="depositPlanoNome">YACHT Teste — R$ 20,00</div>
+                <label for="depositPlanoSelect">Plano / Depósito (R$)</label>
+                <select id="depositPlanoSelect">
+                    <option value="teste-20">YACHT Teste — R$ 20,00</option>
+                    <option value="irwin-50">YACHT IRWIN — R$ 50,00</option>
+                    <option value="hunter-150">YACHT HUNTER — R$ 150,00</option>
+                </select>
+                <div class="deposit-plano-display" id="depositPlanoNome" style="display:none;">YACHT Teste — R$ 20,00</div>
                 <input type="hidden" id="depositPlano" value="teste-20">
             </div>
             <div class="form-group">
