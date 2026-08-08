@@ -60,6 +60,12 @@
     --radius-lg: 22px;
     --transition: 220ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 380ms cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Acento dourado suave — usado com moderação em pontos de destaque
+       (saldo, selo de plano popular) para contrastar com o teal/cyan */
+    --accent-gold: #d4af6a;
+    --accent-gold-soft: #e6cd9a;
+    --accent-gold-deep: #a97f3f;
 }
 
 /* =============================================================
@@ -937,12 +943,12 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 
 .balance-card h2 {
     text-align: left;
-    color: var(--primary-light);
+    color: var(--accent-gold-soft);
     font-size: clamp(27px, 5vw, 33px);
     font-weight: 700;
     margin-top: 8px;
     margin-bottom: 0;
-    text-shadow: 0 0 26px rgba(32, 178, 170, 0.4);
+    text-shadow: 0 0 26px rgba(212, 175, 106, 0.35);
     position: relative;
     letter-spacing: -0.02em;
 }
@@ -1023,15 +1029,15 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
-    color: #04211f;
+    background: linear-gradient(135deg, var(--accent-gold-soft), var(--accent-gold) 55%, var(--accent-gold-deep));
+    color: #2b1d08;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     padding: 5px 14px;
     border-radius: 999px;
-    box-shadow: 0 6px 16px rgba(32, 178, 170, 0.4);
+    box-shadow: 0 6px 16px rgba(212, 175, 106, 0.4);
     white-space: nowrap;
 }
 
@@ -1835,7 +1841,7 @@ body.modal-open {
     }
 
     .sidebar-close {
-        display: flex;
+        display: none !important;
     }
 
     .sidebar-overlay {
