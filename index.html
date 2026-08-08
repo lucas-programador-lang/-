@@ -9,19 +9,15 @@
 </head>
 <body class="app-body">
     <div class="app-layout">
-
         <!-- Scrim behind the mobile off-canvas drawer -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
         <!-- SIDEBAR (desktop / tablet, and off-canvas drawer on mobile) -->
         <aside class="sidebar" id="sidebar">
             <button class="sidebar-close" id="sidebarClose" aria-label="Fechar menu">&times;</button>
-
             <div class="sidebar-brand">
                 <span class="brand-logo-ring"><img src="logo.png" alt="Logo" class="brand-logo"></span>
                 <span class="brand-name">YACHTINCASH</span>
             </div>
-
             <nav class="sidebar-nav">
                 <button class="nav-item active" data-section="inicio">
                     <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 4l8 7.5"/><path d="M6 10v9a1 1 0 0 0 1 1h3v-6h4v6h3a1 1 0 0 0 1-1v-9"/></svg>
@@ -48,7 +44,6 @@
                     <span>Perfil</span>
                 </button>
             </nav>
-
             <div class="sidebar-footer">
                 <a href="https://t.me/yachtincash" target="_blank" class="telegram-btn" title="Grupo Oficial no Telegram">
                     <span class="telegram-mark" aria-hidden="true">
@@ -71,7 +66,6 @@
                 </button>
             </div>
         </aside>
-
         <!-- TOP BAR (mobile only) -->
         <header class="mobile-topbar">
             <div class="mobile-topbar-start">
@@ -101,10 +95,8 @@
                 </button>
             </div>
         </header>
-
         <!-- MAIN CONTENT -->
         <main class="main-content">
-
             <!-- INÍCIO -->
             <section class="page-section active" id="section-inicio">
                 <h1 class="page-title">Início</h1>
@@ -125,7 +117,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="grid-stats">
                     <div class="stat-card stat-card-left">
                         <span>Rendimento Acumulado</span>
@@ -136,7 +127,6 @@
                         <h2 id="comissaoNivel1Inicio">R$ 0,00</h2>
                     </div>
                 </div>
-
                 <div class="rules-box">
                     <p><strong>Regras Importantes:</strong></p>
                     <p>• Retirada de rendimento: Segunda e Sexta.</p>
@@ -144,12 +134,10 @@
                     <p>• Grupo Oficial Telegram: <a href="https://t.me/yachtincash" target="_blank">Entrar no Grupo</a></p>
                 </div>
             </section>
-
             <!-- INVESTIR -->
             <section class="page-section" id="section-investir">
                 <h1 class="page-title">Investir</h1>
                 <p class="page-subtitle">Escolha um plano Yacht e comece a gerar rendimento diário.</p>
-
                 <div class="grid-yacht">
                     <div class="yacht-card">
                         <div class="yacht-card-header">
@@ -173,7 +161,6 @@
                         </div>
                         <button class="btn" onclick="abrirDepositoComPlano('teste-20')">Alugar</button>
                     </div>
-
                     <div class="yacht-card yacht-card-popular">
                         <span class="yacht-popular-tag">Mais Popular</span>
                         <div class="yacht-card-header">
@@ -197,7 +184,6 @@
                         </div>
                         <button class="btn" onclick="abrirDepositoComPlano('irwin-50')">Alugar</button>
                     </div>
-
                     <div class="yacht-card">
                         <div class="yacht-card-header">
                             <h3>YACHT HUNTER</h3>
@@ -222,11 +208,9 @@
                     </div>
                 </div>
             </section>
-
             <!-- CARTEIRA -->
             <section class="page-section" id="section-carteira">
                 <h1 class="page-title">Minha Carteira de Planos</h1>
-
                 <div class="grid-stats">
                     <div class="stat-card">
                         <span>Total Investido em Planos</span>
@@ -237,7 +221,6 @@
                         <h2 id="rendimentoTotalPlanos">R$ 0,00</h2>
                     </div>
                 </div>
-
                 <h3 class="section-subtitle">Planos Ativos e Rendimentos Diários</h3>
                 <div class="info-box">
                     <div class="table-scroll">
@@ -260,7 +243,6 @@
                     </div>
                 </div>
             </section>
-
             <!-- EQUIPE -->
             <section class="page-section" id="section-equipe">
                 <h1 class="page-title">Equipe</h1>
@@ -271,7 +253,6 @@
                         <button class="btn btn-compact" onclick="navigator.clipboard.writeText(document.getElementById('refLink').value); showToast('success', 'Link copiado!');">Copiar</button>
                     </div>
                 </div>
-
                 <h3 class="section-subtitle">Comissão</h3>
                 <div class="grid-stats">
                     <div class="stat-card">
@@ -283,7 +264,6 @@
                         <h2 id="totalIndicados">0</h2>
                     </div>
                 </div>
-
                 <h3 class="section-subtitle">Membros da Rede</h3>
                 <div class="info-box">
                     <div class="table-scroll">
@@ -303,7 +283,6 @@
                     </div>
                 </div>
             </section>
-
             <!-- EXTRATO -->
             <section class="page-section" id="section-extrato">
                 <h1 class="page-title">Extrato de Recebimentos</h1>
@@ -328,12 +307,10 @@
                     </div>
                 </div>
             </section>
-
             <!-- PERFIL -->
             <section class="page-section" id="section-perfil">
                 <h1 class="page-title">Configurações de Perfil</h1>
                 <p class="page-subtitle">Gerencie suas informações de cadastro e dados para recebimento via PIX.</p>
-
                 <div class="profile-card">
                     <h3 class="profile-card-title">Dados Pessoais</h3>
                     <div class="form-group">
@@ -341,7 +318,6 @@
                         <input type="text" id="perfilNomeCompleto" placeholder="Digite seu nome completo">
                     </div>
                 </div>
-
                 <div class="profile-card">
                     <h3 class="profile-card-title">Chave PIX Padrão para Saques</h3>
                     <p class="muted form-box-note">Estes dados serão preenchidos automaticamente na solicitação de saque.</p>
@@ -361,99 +337,83 @@
                     <button class="btn" onclick="showToast('success', 'Alterações salvas!')">Salvar Alterações</button>
                 </div>
             </section>
-
         </main>
     </div>
-
     <!-- MODAL: DEPOSITAR -->
     <div class="modal-overlay" id="depositModal" onclick="if(event.target===this) closeModal('depositModal')">
         <div class="modal-card card">
             <button class="modal-close" onclick="closeModal('depositModal')" aria-label="Fechar">&times;</button>
-
             <h2 style="text-align:left;">Realizar Depósito</h2>
             <p class="subtitle" style="text-align:left; margin-bottom: 22px;">Selecione o plano desejado e gere o seu QR Code Pix.</p>
-
             <div class="form-group">
                 <label>Plano / Depósito (R$)</label>
                 <div class="deposit-plano-display" id="depositPlanoNome">YACHT Teste — R$ 20,00</div>
                 <input type="hidden" id="depositPlano" value="teste-20">
             </div>
-
             <div class="form-group">
                 <label for="depositCpf">CPF (obrigatório para gerar o Pix)</label>
                 <input type="text" id="depositCpf" placeholder="000.000.000-00">
             </div>
-
             <div class="form-group" style="margin-bottom: 22px;">
                 <label for="depositTelefone">Telefone (obrigatório para gerar o Pix)</label>
                 <input type="text" id="depositTelefone" placeholder="(00) 00000-0000">
             </div>
-
             <button class="btn" onclick="gerarQrCodeDeposito()">Gerar QR Code Pix</button>
-
             <!-- Aparece abaixo do formulário assim que o QR Code é gerado -->
             <div id="depositQrView" style="display:none;">
                 <div class="pix-waiting">⏳ Aguardando confirmação do pagamento...</div>
-
                 <div class="pix-qr-panel">
                     <p><strong>Escaneie o QR Code abaixo para pagar:</strong></p>
                     <div id="qrcodeCanvas"></div>
                     <div class="pix-code-box" id="depositPixCode"></div>
                 </div>
-
                 <button class="btn btn-outline" onclick="copiarCodigoPixDeposito()">Copiar código Pix</button>
             </div>
-
             <div class="modal-actions">
                 <button class="btn btn-outline" onclick="closeModal('depositModal')">Cancelar</button>
             </div>
         </div>
     </div>
-
     <!-- MODAL: SACAR -->
     <div class="modal-overlay" id="sacarModal" onclick="if(event.target===this) closeModal('sacarModal')">
         <div class="modal-card card">
             <button class="modal-close" onclick="closeModal('sacarModal')" aria-label="Fechar">&times;</button>
-
             <div class="withdraw-balance-box">
                 <span>Saldo Disponível:</span>
                 <strong id="sacarSaldoDisponivel">R$ 5,00</strong>
             </div>
-
             <h2 style="text-align:left;">Realizar Saque</h2>
             <p class="subtitle" style="text-align:left; margin-bottom: 18px;">Solicite a retirada do seu saldo disponível via Pix.</p>
-
             <div class="withdraw-summary">
                 <div class="withdraw-summary-row">
                     <span>Valor Mínimo:</span>
                     <strong>R$ 30,00</strong>
                 </div>
             </div>
-
             <div class="withdraw-summary">
                 <div class="withdraw-summary-row withdraw-summary-row-stack">
                     <span>Chave PIX de recebimento:</span>
                     <strong class="withdraw-key-missing">Nenhuma chave cadastrada — vá em Perfil e cadastre uma.</strong>
                 </div>
             </div>
-
             <div class="form-group" style="margin-top: 18px; margin-bottom: 10px;">
                 <label for="sacarValor">Valor do Saque (R$)</label>
                 <input type="number" id="sacarValor" placeholder="Digite o valor" min="30" step="0.01">
             </div>
-
             <p class="muted withdraw-days">Saques disponíveis de Terça a Sexta, das 10h às 17h.</p>
-
             <button class="btn btn-success" onclick="solicitarSaque()">Solicitar Saque</button>
-
             <div class="modal-actions">
                 <button class="btn btn-outline" onclick="closeModal('sacarModal')">Cancelar</button>
             </div>
         </div>
     </div>
-
     <!-- Toasts (substitui os alert() nativos do navegador) -->
     <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase SDK (compat) — precisa vir antes de auth.js e script.js -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
     <script src="auth.js"></script>
     <script src="script.js"></script>
