@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Reseta o scroll: enquanto o QR não é gerado, o modal
                 // não precisa (nem deve) rolar.
                 if (modalCard) modalCard.classList.remove('has-scroll');
+                // Padrão ao abrir via botão genérico "Depositar" (sem plano
+                // específico); abrirDepositoComPlano() sobrescreve isso em seguida.
+                atualizarPlanoDeposito('teste-20');
             }
             modal.classList.add('open');
             document.body.classList.add('modal-open');
@@ -28,13 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Usado pelos botões "Alugar" em Investir: abre o modal de Depósito
-    // já com o plano escolhido pré-selecionado no formulário.
+    // já com o plano escolhido travado (sem opção de trocar).
     window.abrirDepositoComPlano = function (planoValor) {
         openModal('depositModal');
-        const planoSelect = document.getElementById('depositPlano');
-        if (planoSelect) {
-            planoSelect.value = planoValor;
-        }
+        atualizarPlanoDeposito(planoValor);
     };
 
     document.addEventListener('keydown', (e) => {
@@ -80,22 +80,19 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarCloseBtn?.addEventListener('click', closeSidebar);
     }
 
-    // ===== Seletor de Planos (Investir) — dropdown escolhe o plano,
-    // só o card correspondente fica visível =====
-    const yachtSelector = document.getElementById('yachtSelector');
-    if (yachtSelector) {
-        const planoSelect = document.getElementById('investirPlanoSelect');
-        const planoCards = Array.from(yachtSelector.querySelectorAll('.yacht-card'));
+    // ===== Plano travado no modal de Depósito (sem select — 1 plano por vez) =====
+    const PLANOS_INFO = {
+        'teste-20': 'YACHT Teste — R$ 20,00',
+        'irwin-50': 'YACHT IRWIN — R$ 50,00',
+        'hunter-150': 'YACHT HUNTER — R$ 150,00'
+    };
 
-        function mostrarPlano(valor) {
-            planoCards.forEach((card) => {
-                card.classList.toggle('active', card.dataset.plano === valor);
-            });
-        }
-
-        planoSelect?.addEventListener('change', () => mostrarPlano(planoSelect.value));
-
-        if (planoSelect) mostrarPlano(planoSelect.value);
+    function atualizarPlanoDeposito(planoValor) {
+        const nomeEl = document.getElementById('depositPlanoNome');
+        const hiddenInput = document.getElementById('depositPlano');
+        const label = PLANOS_INFO[planoValor] || PLANOS_INFO['teste-20'];
+        if (nomeEl) nomeEl.textContent = label;
+        if (hiddenInput) hiddenInput.value = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
     }
 
     // ===== Toasts (substitui os alert() nativos do navegador) =====
