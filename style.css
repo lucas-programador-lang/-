@@ -882,25 +882,24 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     width: 140px;
 }
 
-/* =============================================================
-   SELETOR DE PLANOS (Investir) — dropdown escolhe o plano,
-   só o card correspondente fica visível
-   ============================================================= */
-.yacht-selector {
-    max-width: 340px;
-    margin: 0 auto 22px auto;
+.grid-yacht {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
 }
 
-.yacht-selector-select {
-    margin-bottom: 20px;
-}
-
-.yacht-selector .yacht-card {
-    display: none;
-}
-
-.yacht-selector .yacht-card.active {
-    display: flex;
+/* Campo de exibição do plano no modal de Depósito — mostra o plano
+   travado (sem select, sem escolha entre os 3) */
+.deposit-plano-display {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    color: var(--text-color);
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .yacht-card {
@@ -1562,6 +1561,11 @@ body.modal-open {
    RESPONSIVE — TABLET & DESKTOP
    ============================================================= */
 @media (min-width: 640px) {
+    .grid-yacht {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+    }
+
     .toast-container {
         top: 24px;
         right: 24px;
@@ -1583,8 +1587,8 @@ body.modal-open {
         font-size: 39px;
     }
 
-    .yacht-selector {
-        max-width: 360px;
+    .grid-yacht {
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .sidebar {
@@ -1783,6 +1787,10 @@ body.modal-open {
 
     .balance-actions .btn {
         width: 100%;
+    }
+
+    .grid-yacht {
+        grid-template-columns: 1fr;
     }
 
     .grid-stats {
