@@ -18,6 +18,35 @@ if (!firebase.apps.length) {
 const firebaseAuth = firebase.auth();
 const firebaseDb = firebase.database();
 
+// Gera um código alfanumérico curto (sem caracteres ambíguos como 0/O/1/I)
+function gerarCodigoAleatorio(tamanho) {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    let codigo = '';
+    for (let i = 0; i < tamanho; i++) {
+        codigo += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return codigo;
+}
+
+// Gera um código de indicação único (verifica em refCodes/{codigo} via
+// transaction para nunca gerar dois códigos iguais, mesmo com usuários
+// se cadastrando ao mesmo tempo).
+function gerarCodigoIndicacaoUnico(uid, tentativasRestantes) {
+    if (tentativasRestantes === undefined) tentativasRestantes = 6;
+    const codigo = gerarCodigoAleatorio(7);
+    return firebaseDb.ref('refCodes/' + codigo).transaction((atual) => {
+        return atual === null ? uid : undefined;
+    }).then((resultado) => {
+        if (resultado.committed) {
+            return codigo;
+        }
+        if (tentativasRestantes > 0) {
+            return gerarCodigoIndicacaoUnico(uid, tentativasRestantes - 1);
+        }
+        throw new Error('Não foi possível gerar um código de indicação único.');
+    });
+}
+
 // =====================================================================
 // Sistema de autenticação (Firebase Auth) e perfil (Realtime Database)
 // =====================================================================
@@ -31,19 +60,55 @@ const Auth = {
         return firebaseAuth.signInWithEmailAndPassword(email, password);
     },
 
-    // Cadastro: cria o usuário no Firebase Auth e o perfil (nome + saldo
-    // inicial de R$ 5,00) no Realtime Database. Retorna uma Promise.
+    // Cadastro: cria o usuário no Firebase Auth, gera um código de
+    // indicação único, salva o perfil (nome + saldo inicial de R$ 5,00 +
+    // refCode) e, se o cadastro veio de um link de indicação (?ref=CODIGO
+    // na URL), registra o vínculo com quem indicou. Retorna uma Promise.
     register(fullName, email, password) {
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
             .then((credential) => {
                 const user = credential.user;
+                const uid = user.uid;
                 return user.updateProfile({ displayName: fullName })
-                    .then(() => this._userRef(user.uid).set({
+                    .then(() => gerarCodigoIndicacaoUnico(uid))
+                    .then((refCode) => this._userRef(uid).set({
                         fullName: fullName,
                         email: email,
-                        balance: 5
+                        balance: 5,
+                        cadastroBonus: 5,
+                        createdAt: Date.now(),
+                        refCode: refCode
                     }))
+                    .then(() => this._registrarIndicacaoSeHouver(uid, fullName))
                     .then(() => credential);
+            });
+    },
+
+    // Se a URL de cadastro tinha ?ref=CODIGO, resolve o código para o uid
+    // de quem indicou e grava o vínculo dos dois lados: no perfil do novo
+    // usuário (referredBy) e na lista de indicados de quem indicou
+    // (referrals/{referrerUid}/...), que alimenta a página Equipe.
+    _registrarIndicacaoSeHouver(uid, fullName) {
+        const params = new URLSearchParams(window.location.search);
+        const refCodigo = (params.get('ref') || '').trim().toUpperCase();
+        if (!refCodigo) return Promise.resolve();
+
+        return firebaseDb.ref('refCodes/' + refCodigo).once('value')
+            .then((snapshot) => {
+                const referrerUid = snapshot.val();
+                if (!referrerUid || referrerUid === uid) return null;
+
+                return Promise.all([
+                    this._userRef(uid).update({ referredBy: referrerUid }),
+                    firebaseDb.ref('referrals/' + referrerUid).push({
+                        referredUid: uid,
+                        referredName: fullName,
+                        createdAt: Date.now()
+                    })
+                ]);
+            })
+            .catch((err) => {
+                console.error('Erro ao registrar indicação:', err);
             });
     },
 
