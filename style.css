@@ -1466,23 +1466,23 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     appearance: none;
     -webkit-appearance: none;
     position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    min-height: 34px;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
     display: block;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.02));
-    border: 1px solid var(--border-soft-2);
+    background: linear-gradient(160deg, rgba(32, 178, 170, 0.14), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(140, 232, 226, 0.22);
     border-radius: 50%;
-    color: var(--text-muted);
+    color: var(--text-color);
     font-size: 0;
     line-height: 0;
     cursor: pointer;
-    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
     transition: background var(--transition-slow), color var(--transition), border-color var(--transition), box-shadow var(--transition-slow), transform var(--transition-slow);
 }
 
@@ -1493,7 +1493,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     top: 50%;
     left: 50%;
     width: 13px;
-    height: 2px;
+    height: 2.5px;
     border-radius: 2px;
     background: currentColor;
     transition: background var(--transition);
@@ -1507,16 +1507,23 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.modal-close:hover {
-    background: linear-gradient(160deg, rgba(242, 73, 92, 0.18), rgba(242, 73, 92, 0.05));
-    border-color: rgba(242, 73, 92, 0.4);
-    color: var(--danger);
-    box-shadow: 0 6px 20px -2px rgba(242, 73, 92, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.10);
-    transform: rotate(90deg);
+/* Efeito de giro/glow só em dispositivos com mouse de verdade — em touch o
+   :hover pode "grudar" depois de tocar e deixar o botão preso no estado ativo */
+@media (hover: hover) and (pointer: fine) {
+    .modal-close:hover {
+        background: linear-gradient(160deg, rgba(242, 73, 92, 0.22), rgba(242, 73, 92, 0.06));
+        border-color: rgba(242, 73, 92, 0.45);
+        color: var(--danger);
+        box-shadow: 0 6px 20px -2px rgba(242, 73, 92, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        transform: rotate(90deg);
+    }
 }
 
 .modal-close:active {
-    transform: rotate(90deg) scale(0.9);
+    background: linear-gradient(160deg, rgba(242, 73, 92, 0.24), rgba(242, 73, 92, 0.08));
+    border-color: rgba(242, 73, 92, 0.45);
+    color: var(--danger);
+    transform: scale(0.90);
 }
 
 body.modal-open {
