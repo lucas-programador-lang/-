@@ -1,69 +1,80 @@
-// Sistema de autenticação e controle de sessões básicas
+// =====================================================================
+// Firebase — inicialização
+// =====================================================================
+const firebaseConfig = {
+    apiKey: "AIzaSyBq5b3kwpDsX4cxpFPH1cDT45CNDjUVGww",
+    authDomain: "yachtincash.firebaseapp.com",
+    databaseURL: "https://yachtincash-default-rtdb.firebaseio.com",
+    projectId: "yachtincash",
+    storageBucket: "yachtincash.firebasestorage.app",
+    messagingSenderId: "767279208292",
+    appId: "1:767279208292:web:7894f5d3c6aad067428c71"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+
+const firebaseAuth = firebase.auth();
+const firebaseDb = firebase.database();
+
+// =====================================================================
+// Sistema de autenticação (Firebase Auth) e perfil (Realtime Database)
+// =====================================================================
 const Auth = {
-    _getUsers() {
-        try {
-            return JSON.parse(localStorage.getItem('yacht_users')) || {};
-        } catch (err) {
-            console.error('Erro ao ler yacht_users do localStorage:', err);
-            return {};
-        }
+    _userRef(uid) {
+        return firebaseDb.ref('users/' + uid);
     },
-    _saveUsers(users) {
-        localStorage.setItem('yacht_users', JSON.stringify(users));
-    },
-    isLoggedIn() {
-        return localStorage.getItem('yacht_logged') === 'true';
-    },
+
+    // Login com e-mail e senha. Retorna uma Promise (use .then/.catch).
     login(email, password) {
-        if (email && password) {
-            const users = this._getUsers();
-            const account = users[email];
-
-            // Só autentica se o e-mail existir e a senha bater
-            if (!account || account.password !== password) {
-                return false;
-            }
-
-            localStorage.setItem('yacht_logged', 'true');
-            localStorage.setItem('yacht_user', email);
-            localStorage.setItem('yacht_name', account.fullName);
-            localStorage.setItem('yacht_balance', account.balance);
-            return true;
-        }
-        return false;
+        return firebaseAuth.signInWithEmailAndPassword(email, password);
     },
+
+    // Cadastro: cria o usuário no Firebase Auth e o perfil (nome + saldo
+    // inicial de R$ 5,00) no Realtime Database. Retorna uma Promise.
     register(fullName, email, password) {
-        if (fullName && email && password) {
-            const users = this._getUsers();
-
-            // Não permite recadastrar um e-mail já existente
-            if (users[email]) {
-                return false;
-            }
-
-            // Dar 5,00 no cadastro conforme regras
-            users[email] = { password: password, balance: '5.00', fullName: fullName };
-            this._saveUsers(users);
-
-            localStorage.setItem('yacht_logged', 'true');
-            localStorage.setItem('yacht_user', email);
-            localStorage.setItem('yacht_name', fullName);
-            localStorage.setItem('yacht_balance', '5.00');
-            return true;
-        }
-        return false;
+        return firebaseAuth.createUserWithEmailAndPassword(email, password)
+            .then((credential) => {
+                const user = credential.user;
+                return user.updateProfile({ displayName: fullName })
+                    .then(() => this._userRef(user.uid).set({
+                        fullName: fullName,
+                        email: email,
+                        balance: 5
+                    }))
+                    .then(() => credential);
+            });
     },
+
     logout() {
-        localStorage.removeItem('yacht_logged');
-        localStorage.removeItem('yacht_user');
-        localStorage.removeItem('yacht_name');
-        localStorage.removeItem('yacht_balance');
-        window.location.href = 'login.html';
-    },
-    protectRoute() {
-        if (!this.isLoggedIn()) {
+        return firebaseAuth.signOut().then(() => {
             window.location.href = 'login.html';
-        }
+        });
+    },
+
+    isLoggedIn() {
+        return !!firebaseAuth.currentUser;
+    },
+
+    getCurrentUser() {
+        return firebaseAuth.currentUser ? firebaseAuth.currentUser.email : null;
+    },
+
+    // Protege a rota do dashboard: se não houver usuário logado, redireciona
+    // para login.html. Se houver, chama onReady(user, userRef) assim que o
+    // Firebase confirmar o estado de autenticação — userRef já aponta para
+    // users/{uid} no Realtime Database, pronto para leitura/escuta.
+    protectRoute(onReady) {
+        firebaseAuth.onAuthStateChanged((user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+            if (typeof onReady === 'function') {
+                onReady(user, this._userRef(user.uid));
+            }
+        });
     }
 };
 
@@ -170,6 +181,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Traduz os códigos de erro mais comuns do Firebase Auth para PT-BR
+    function mensagemErroFirebase(err, contexto) {
+        const codigo = err && err.code;
+        const mapa = {
+            'auth/invalid-email': 'E-mail inválido.',
+            'auth/user-disabled': 'Esta conta foi desativada.',
+            'auth/user-not-found': 'E-mail ou senha incorretos!',
+            'auth/wrong-password': 'E-mail ou senha incorretos!',
+            'auth/invalid-credential': 'E-mail ou senha incorretos!',
+            'auth/email-already-in-use': 'Esse e-mail já está cadastrado.',
+            'auth/weak-password': 'A senha deve ter pelo menos 6 caracteres.',
+            'auth/network-request-failed': 'Falha de conexão. Verifique sua internet.'
+        };
+        return mapa[codigo] || (contexto === 'login' ? 'Erro ao realizar login.' : 'Erro ao realizar cadastro.');
+    }
+
     // Tratamento do formulário de Login
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
@@ -187,20 +214,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const email = emailInput.value;
             const pass = passwordInput.value;
+            const submitBtn = loginForm.querySelector('button[type="submit"], .btn');
+            if (submitBtn) submitBtn.disabled = true;
 
-            try {
-                if (Auth.login(email, pass)) {
+            Auth.login(email, pass)
+                .then(() => {
                     Toast.success('Login realizado! Redirecionando...');
                     setTimeout(() => { window.location.href = 'index.html'; }, 1200);
-                } else {
-                    Toast.error('E-mail ou senha incorretos!');
-                }
-            } catch (err) {
-                console.error('Erro ao tentar login:', err);
-                Toast.error('Erro ao realizar login.');
-            }
+                })
+                .catch((err) => {
+                    console.error('Erro ao tentar login:', err);
+                    Toast.error(mensagemErroFirebase(err, 'login'));
+                    if (submitBtn) submitBtn.disabled = false;
+                });
         });
     }
+
     // Tratamento do formulário de Registro
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
@@ -220,18 +249,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const fullName = regNameInput.value;
             const email = regEmailInput.value;
             const pass = regPassInput.value;
+            const submitBtn = registerForm.querySelector('button[type="submit"], .btn');
+            if (submitBtn) submitBtn.disabled = true;
 
-            try {
-                if (Auth.register(fullName, email, pass)) {
+            Auth.register(fullName, email, pass)
+                .then(() => {
                     Toast.success('Cadastro realizado com sucesso! Você ganhou R$ 5,00.');
                     setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-                } else {
-                    Toast.error('Esse e-mail já pode estar cadastrado.');
-                }
-            } catch (err) {
-                console.error('Erro ao tentar cadastro:', err);
-                Toast.error('Erro ao realizar cadastro.');
-            }
+                })
+                .catch((err) => {
+                    console.error('Erro ao tentar cadastro:', err);
+                    Toast.error(mensagemErroFirebase(err, 'register'));
+                    if (submitBtn) submitBtn.disabled = false;
+                });
         });
     }
 });
