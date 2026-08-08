@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ===== Menu hambúrguer (gaveta lateral no mobile) =====
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarCloseBtn?.addEventListener('click', closeSidebar);
     }
 
+    // ===== Plano travado no modal de Depósito (sem select — 1 plano por vez) =====
     const PLANOS_INFO = {
         'teste-20': 'YACHT Teste — R$ 20,00',
         'irwin-50': 'YACHT IRWIN — R$ 50,00',
@@ -87,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hiddenInput) hiddenInput.value = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
     }
 
+    // ===== Toasts (substitui os alert() nativos do navegador) =====
     window.showToast = function (type, title, message) {
         const container = document.getElementById('toastContainer');
         if (!container) {
@@ -122,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(toast);
     };
 
+    // ===== QR Code Pix (modal de Depositar) =====
     window.gerarQrCodeDeposito = function () {
         const cpfInput = document.getElementById('depositCpf');
         const telefoneInput = document.getElementById('depositTelefone');
@@ -131,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Código Pix "copia e cola" (exemplo — substituir pela integração real do gateway)
         const pixCode = '00020126580014BR.GOV.BCB.PIX2572qrcode.cartwavehub.com.br/v2/qr/cob/945c7fe1-5dc0-49a1-be8d-041bf95642e05204000053039865802BR5925PLATAFORMA6009SAO PAULO62070503***6304ABCD';
 
         const qrContainer = document.getElementById('qrcodeCanvas');
@@ -161,7 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(pixCode).then(() => showToast('success', 'Código Pix copiado!'));
     };
 
+    // ===== Solicitação de Saque (modal de Sacar) =====
     const SAQUE_VALOR_MINIMO = 30;
+
+    // Saldo do usuário mantido em memória, atualizado em tempo real pelo
+    // listener do Firebase Realtime Database (ver bloco do dashboard abaixo).
+    let currentBalance = 0;
 
     window.solicitarSaque = function () {
         const valorInput = document.getElementById('sacarValor');
@@ -180,8 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const saldoAtual = parseFloat((localStorage.getItem('yacht_balance') || '5.00').replace(',', '.'));
-        if (valor > saldoAtual) {
+        if (valor > currentBalance) {
             showToast('warning', 'Saldo insuficiente', 'O valor solicitado é maior que o seu saldo disponível.');
             valorInput.focus();
             return;
@@ -192,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal('sacarModal');
     };
 
+    // Tratamento do formulário de Login
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
@@ -210,19 +220,18 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const user = usernameInput.value;
             const pass = passwordInput.value;
-            try {
-                if (Auth.login(user, pass)) {
+            Auth.login(user, pass)
+                .then(() => {
                     window.location.href = 'index.html';
-                } else {
+                })
+                .catch((err) => {
+                    console.error('Erro ao tentar login:', err);
                     showToast('error', 'Preencha os campos corretamente!');
-                }
-            } catch (err) {
-                console.error('Erro ao tentar login:', err);
-                showToast('error', 'Erro ao realizar login.');
-            }
+                });
         });
     }
 
+    // Tratamento do formulário de Registro
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
@@ -241,47 +250,57 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const user = regUserInput.value;
             const pass = regPassInput.value;
-            try {
-                if (Auth.register(user, pass)) {
+            Auth.register(user, user, pass)
+                .then(() => {
                     showToast('success', 'Cadastro realizado com sucesso!', 'Você ganhou R$ 5,00.');
                     setTimeout(() => { window.location.href = 'index.html'; }, 1200);
-                } else {
+                })
+                .catch((err) => {
+                    console.error('Erro ao tentar cadastro:', err);
                     showToast('error', 'Erro ao realizar cadastro.');
-                }
-            } catch (err) {
-                console.error('Erro ao tentar cadastro:', err);
-                showToast('error', 'Erro ao realizar cadastro.');
-            }
+                });
         });
     }
 
+    // Se estiver na index (dashboard), protege a rota e escuta os dados do usuário
     if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
         if (typeof Auth !== 'undefined') {
-            Auth.protectRoute();
+            Auth.protectRoute((user, userRef) => {
+                // Escuta em tempo real o perfil (nome, saldo) no Realtime Database
+                userRef.on('value', (snapshot) => {
+                    const data = snapshot.val() || {};
+                    const balanceValue = typeof data.balance === 'number' ? data.balance : (parseFloat(data.balance) || 0);
+                    currentBalance = balanceValue;
 
-            const savedBalance = localStorage.getItem('yacht_balance') || '5.00';
+                    const formattedBalance = balanceValue.toFixed(2).replace('.', ',');
 
-            const balanceTargets = ['userBalance', 'sacarSaldoDisponivel'];
-            balanceTargets.forEach((id) => {
-                const el = document.getElementById(id);
-                if (el) el.innerText = `R$ ${savedBalance}`;
+                    // Atualiza o saldo em todos os lugares onde ele aparece (Início, Carteira, Perfil)
+                    const balanceTargets = ['userBalance', 'sacarSaldoDisponivel'];
+                    balanceTargets.forEach((id) => {
+                        const el = document.getElementById(id);
+                        if (el) el.innerText = `R$ ${formattedBalance}`;
+                    });
+
+                    // Preenche dados do Perfil
+                    const perfilUsuario = document.getElementById('perfilUsuario');
+                    const perfilSaldo = document.getElementById('perfilSaldo');
+                    const perfilNomeCompleto = document.getElementById('perfilNomeCompleto');
+                    if (perfilUsuario) {
+                        perfilUsuario.innerText = data.fullName || user.email || '-';
+                    }
+                    if (perfilSaldo) {
+                        perfilSaldo.innerText = `R$ ${formattedBalance}`;
+                    }
+                    if (perfilNomeCompleto && !perfilNomeCompleto.value) {
+                        perfilNomeCompleto.value = data.fullName || '';
+                    }
+                });
             });
-
-            const perfilUsuario = document.getElementById('perfilUsuario');
-            const perfilSaldo = document.getElementById('perfilSaldo');
-            if (perfilUsuario) {
-                const currentUser = (typeof Auth.getCurrentUser === 'function')
-                    ? Auth.getCurrentUser()
-                    : localStorage.getItem('yacht_user') || '-';
-                perfilUsuario.innerText = currentUser || '-';
-            }
-            if (perfilSaldo) {
-                perfilSaldo.innerText = `R$ ${savedBalance}`;
-            }
         } else {
             console.error('Auth não está definido. A rota do dashboard não pôde ser protegida.');
         }
 
+        // ===== Navegação da Sidebar (troca de seções) =====
         const navItems = document.querySelectorAll('.nav-item[data-section]');
         const sections = document.querySelectorAll('.page-section');
 
@@ -292,16 +311,19 @@ document.addEventListener('DOMContentLoaded', () => {
             navItems.forEach((item) => {
                 item.classList.toggle('active', item.dataset.section === sectionKey);
             });
+            // Lembra a última seção visitada
             localStorage.setItem('yacht_last_section', sectionKey);
         }
 
         navItems.forEach((item) => {
             item.addEventListener('click', () => {
                 showSection(item.dataset.section);
+                // No mobile, a navegação acontece dentro da gaveta — fecha ao escolher uma seção
                 closeSidebar();
             });
         });
 
+        // Restaura a última seção visitada (padrão: início)
         const lastSection = localStorage.getItem('yacht_last_section');
         if (lastSection && document.getElementById(`section-${lastSection}`)) {
             showSection(lastSection);
