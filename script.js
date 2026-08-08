@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Usado pelos botões "Alugar" em Investir: abre o modal de Depósito
+    // já com o plano escolhido pré-selecionado no formulário.
+    window.abrirDepositoComPlano = function (planoValor) {
+        openModal('depositModal');
+        const planoSelect = document.getElementById('depositPlano');
+        if (planoSelect) {
+            planoSelect.value = planoValor;
+        }
+    };
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             document.querySelectorAll('.modal-overlay.open').forEach((modal) => {
