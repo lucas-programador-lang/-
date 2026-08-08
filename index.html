@@ -316,7 +316,7 @@
                         <label for="perfilChavePix">Sua Chave PIX</label>
                         <input type="text" id="perfilChavePix" placeholder="Digite sua chave PIX">
                     </div>
-                    <button class="btn" onclick="showToast('success', 'Alterações salvas!')">Salvar Alterações</button>
+                    <button class="btn" onclick="salvarPerfil()">Salvar Alterações</button>
                 </div>
             </section>
         </main>
@@ -380,7 +380,7 @@
             <div class="withdraw-summary">
                 <div class="withdraw-summary-row withdraw-summary-row-stack">
                     <span>Chave PIX de recebimento:</span>
-                    <strong class="withdraw-key-missing">Nenhuma chave cadastrada — vá em Perfil e cadastre uma.</strong>
+                    <strong class="withdraw-key-missing" id="sacarChavePix">Nenhuma chave cadastrada — vá em Perfil e cadastre uma.</strong>
                 </div>
             </div>
             <div class="form-group" style="margin-top: 18px; margin-bottom: 10px;">
