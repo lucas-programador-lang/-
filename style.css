@@ -981,8 +981,19 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 /* =============================================================
    EXTRATO
    ============================================================= */
+
+/* Contêiner com scroll horizontal PRÓPRIO para a tabela. Sem isso,
+   em telas estreitas a tabela é cortada pelo overflow-x: hidden do
+   body em vez de poder ser rolada — por isso este wrapper existe. */
+.table-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .extrato-table {
     width: 100%;
+    min-width: 460px;
     border-collapse: collapse;
     font-size: 14px;
 }
@@ -996,12 +1007,20 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     letter-spacing: 0.05em;
     padding: 8px 6px;
     border-bottom: 1px solid var(--border-soft);
+    white-space: nowrap;
 }
 
 .extrato-table td {
     padding: 10px 6px;
     border-bottom: 1px solid var(--border-soft);
     color: var(--text-color);
+}
+
+/* Célula "vazia" (mensagem de estado) pode quebrar linha normalmente,
+   ela não deve forçar a tabela a ficar larga */
+.extrato-table td[colspan] {
+    white-space: normal;
+    min-width: 0;
 }
 
 /* =============================================================
@@ -1484,7 +1503,7 @@ body.modal-open {
 /* =============================================================
    RESPONSIVE — MOBILE (menu hamburger)
    ============================================================= */
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
     .app-layout {
         flex-direction: column;
     }
@@ -1644,6 +1663,28 @@ body.modal-open {
 
     .grid-yacht {
         grid-template-columns: 1fr;
+    }
+
+    .grid-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .extrato-table {
+        min-width: 420px;
+        font-size: 13px;
+    }
+
+    .extrato-table th,
+    .extrato-table td {
+        padding: 8px 5px;
+    }
+
+    .page-title {
+        font-size: 21px;
+    }
+
+    .section-subtitle {
+        font-size: 15px;
     }
 
     .toast-container {
