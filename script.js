@@ -74,19 +74,149 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarCloseBtn?.addEventListener('click', closeSidebar);
     }
 
-    // ===== Plano travado no modal de Depósito (sem select — 1 plano por vez) =====
+    // ===== Planos (Investir/Depositar) — dados completos, usados no modal
+    // de Depósito e para registrar a compra na Carteira =====
     const PLANOS_INFO = {
-        'teste-20': 'YACHT Teste — R$ 20,00',
-        'irwin-50': 'YACHT IRWIN — R$ 50,00',
-        'hunter-150': 'YACHT HUNTER — R$ 150,00'
+        'teste-20': { nome: 'YACHT Teste', valor: 20, retornoDiario: 2.5, duracaoDias: 4 },
+        'irwin-50': { nome: 'YACHT IRWIN', valor: 50, retornoDiario: 3.35, duracaoDias: 30 },
+        'hunter-150': { nome: 'YACHT HUNTER', valor: 150, retornoDiario: 9, duracaoDias: 30 }
     };
+
+    function formatarMoeda(valor) {
+        return `R$ ${(valor || 0).toFixed(2).replace('.', ',')}`;
+    }
+
+    function formatarDataHora(timestamp) {
+        const d = new Date(timestamp);
+        const pad = (n) => String(n).padStart(2, '0');
+        return `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function formatarMesAno(timestamp) {
+        const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const d = new Date(timestamp);
+        return `${meses[d.getMonth()]}/${d.getFullYear()}`;
+    }
 
     function atualizarPlanoDeposito(planoValor) {
         const nomeEl = document.getElementById('depositPlanoNome');
         const hiddenInput = document.getElementById('depositPlano');
-        const label = PLANOS_INFO[planoValor] || PLANOS_INFO['teste-20'];
-        if (nomeEl) nomeEl.textContent = label;
-        if (hiddenInput) hiddenInput.value = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
+        const chave = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
+        const info = PLANOS_INFO[chave];
+        if (nomeEl) nomeEl.textContent = `${info.nome} — ${formatarMoeda(info.valor)}`;
+        if (hiddenInput) hiddenInput.value = chave;
+    }
+
+    // Registra a compra do plano no Realtime Database assim que o Pix é
+    // gerado — é o que faz o plano aparecer na Carteira.
+    function registrarPlanoAtivo(planoValor) {
+        const user = firebaseAuth.currentUser;
+        if (!user) return;
+        const chave = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
+        const info = PLANOS_INFO[chave];
+        firebaseDb.ref('users/' + user.uid + '/planos').push({
+            planoKey: chave,
+            nome: info.nome,
+            valorInvestido: info.valor,
+            retornoDiario: info.retornoDiario,
+            duracaoDias: info.duracaoDias,
+            dataAtivacao: Date.now()
+        });
+    }
+
+    // Preenche a página Carteira (totais + tabela de planos ativos) a
+    // partir dos dados de users/{uid}/planos no Realtime Database.
+    function renderizarCarteira(planosData) {
+        const tbody = document.getElementById('planosAtivosBody');
+        const totalInvestidoEl = document.getElementById('totalInvestidoPlanos');
+        const rendimentoTotalEl = document.getElementById('rendimentoTotalPlanos');
+        if (!tbody) return;
+
+        const planos = planosData ? Object.values(planosData) : [];
+
+        if (!planos.length) {
+            tbody.innerHTML = '<tr><td colspan="5" class="muted">Você ainda não possui planos ativos. Vá até <strong>Investir</strong> para alugar seu primeiro Yacht.</td></tr>';
+            if (totalInvestidoEl) totalInvestidoEl.textContent = formatarMoeda(0);
+            if (rendimentoTotalEl) rendimentoTotalEl.textContent = formatarMoeda(0);
+            return;
+        }
+
+        let totalInvestido = 0;
+        let rendimentoTotal = 0;
+
+        const linhas = planos.map((plano) => {
+            const diasPassados = Math.floor((Date.now() - plano.dataAtivacao) / 86400000);
+            const diasContados = Math.max(0, Math.min(diasPassados, plano.duracaoDias));
+            const rendimentoAcumulado = diasContados * plano.retornoDiario;
+            const finalizado = diasPassados >= plano.duracaoDias;
+
+            totalInvestido += plano.valorInvestido;
+            rendimentoTotal += rendimentoAcumulado;
+
+            const dataFormatada = new Date(plano.dataAtivacao).toLocaleDateString('pt-BR');
+            const statusBadge = finalizado
+                ? '<span class="badge badge-info">Concluído</span>'
+                : '<span class="badge badge-success">Ativo</span>';
+
+            return `
+                <tr>
+                    <td>${dataFormatada}</td>
+                    <td>${plano.nome} — ${formatarMoeda(plano.valorInvestido)}</td>
+                    <td>${formatarMoeda(plano.retornoDiario)}</td>
+                    <td>${formatarMoeda(rendimentoAcumulado)}</td>
+                    <td>${statusBadge}</td>
+                </tr>
+            `;
+        }).join('');
+
+        tbody.innerHTML = linhas;
+        if (totalInvestidoEl) totalInvestidoEl.textContent = formatarMoeda(totalInvestido);
+        if (rendimentoTotalEl) rendimentoTotalEl.textContent = formatarMoeda(rendimentoTotal);
+    }
+
+    // Preenche o Extrato de Recebimentos: cada dia já rendido de cada plano
+    // ativo vira uma linha (mesma base de dados/cálculo da Carteira).
+    function renderizarExtrato(planosData) {
+        const tbody = document.getElementById('extratoBody');
+        if (!tbody) return;
+
+        const planos = planosData ? Object.values(planosData) : [];
+        const entradas = [];
+
+        planos.forEach((plano) => {
+            const diasPassados = Math.floor((Date.now() - plano.dataAtivacao) / 86400000);
+            const diasContados = Math.max(0, Math.min(diasPassados, plano.duracaoDias));
+
+            for (let dia = 1; dia <= diasContados; dia++) {
+                entradas.push({
+                    data: plano.dataAtivacao + dia * 86400000,
+                    descricao: `Rendimento Diário — ${plano.nome}`,
+                    valor: plano.retornoDiario
+                });
+            }
+        });
+
+        if (!entradas.length) {
+            tbody.innerHTML = '<tr><td colspan="4" class="muted">Nenhuma movimentação registrada ainda.</td></tr>';
+            return;
+        }
+
+        entradas.sort((a, b) => b.data - a.data);
+
+        tbody.innerHTML = entradas.map((entrada) => {
+            const dataObj = new Date(entrada.data);
+            const dataHora = dataObj.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            const mesAno = dataObj.toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' });
+
+            return `
+                <tr>
+                    <td>${dataHora}</td>
+                    <td>${mesAno}</td>
+                    <td>${entrada.descricao}</td>
+                    <td>${formatarMoeda(entrada.valor)}</td>
+                </tr>
+            `;
+        }).join('');
     }
 
     // ===== Toasts (substitui os alert() nativos do navegador) =====
@@ -159,6 +289,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const modalCard = document.querySelector('#depositModal .modal-card');
         if (modalCard) modalCard.classList.add('has-scroll');
+
+        // Registra o plano escolhido como ativo — é isso que atualiza a Carteira
+        registrarPlanoAtivo(document.getElementById('depositPlano').value);
     };
 
     window.copiarCodigoPixDeposito = function () {
@@ -294,6 +427,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (perfilNomeCompleto && !perfilNomeCompleto.value) {
                         perfilNomeCompleto.value = data.fullName || '';
                     }
+                });
+
+                // Escuta em tempo real os planos comprados (Carteira)
+                userRef.child('planos').on('value', (snapshot) => {
+                    renderizarCarteira(snapshot.val());
                 });
             });
         } else {
