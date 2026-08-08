@@ -80,30 +80,22 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarCloseBtn?.addEventListener('click', closeSidebar);
     }
 
-    // ===== Carrossel de Planos (Investir) — exibe 1 plano por vez =====
-    const yachtCarousel = document.getElementById('yachtCarousel');
-    if (yachtCarousel) {
-        const slides = Array.from(yachtCarousel.querySelectorAll('.yacht-card'));
-        const dotsWrap = document.getElementById('yachtDots');
-        const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.yacht-carousel-dot')) : [];
-        const prevBtn = document.getElementById('yachtPrev');
-        const nextBtn = document.getElementById('yachtNext');
-        const counter = document.getElementById('yachtCounter');
-        let current = 0;
+    // ===== Seletor de Planos (Investir) — dropdown escolhe o plano,
+    // só o card correspondente fica visível =====
+    const yachtSelector = document.getElementById('yachtSelector');
+    if (yachtSelector) {
+        const planoSelect = document.getElementById('investirPlanoSelect');
+        const planoCards = Array.from(yachtSelector.querySelectorAll('.yacht-card'));
 
-        function goToSlide(index) {
-            if (!slides.length) return;
-            current = (index + slides.length) % slides.length;
-            slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
-            dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
-            if (counter) counter.textContent = `${current + 1} / ${slides.length}`;
+        function mostrarPlano(valor) {
+            planoCards.forEach((card) => {
+                card.classList.toggle('active', card.dataset.plano === valor);
+            });
         }
 
-        prevBtn?.addEventListener('click', () => goToSlide(current - 1));
-        nextBtn?.addEventListener('click', () => goToSlide(current + 1));
-        dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+        planoSelect?.addEventListener('change', () => mostrarPlano(planoSelect.value));
 
-        goToSlide(0);
+        if (planoSelect) mostrarPlano(planoSelect.value);
     }
 
     // ===== Toasts (substitui os alert() nativos do navegador) =====
