@@ -57,6 +57,11 @@
     --accent-gold: #d4af6a;
     --accent-gold-soft: #e6cd9a;
     --accent-gold-deep: #a97f3f;
+
+    /* Turquesa exato da logo.png (amostrado da própria imagem), usado
+       no anel da logo para não destoar do ícone do barco */
+    --logo-teal: #3ecac7;
+    --logo-teal-deep: #1d8d8a;
 }
 
 * {
@@ -501,7 +506,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     height: 44px;
     border-radius: 50%;
     padding: 2.5px;
-    background: conic-gradient(from 180deg, var(--primary-color), var(--accent-color), var(--primary-lighter), var(--primary-color));
+    background: conic-gradient(from 180deg, var(--primary-dark), var(--primary-color), var(--logo-teal), var(--primary-light), var(--primary-dark));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -513,7 +518,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 2.5px solid var(--bg-dark-2);
+    border: 2px solid var(--bg-card-2);
     display: block;
 }
 
