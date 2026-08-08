@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('qrcodeCanvas').innerHTML = '';
                 }
                 if (modalCard) modalCard.classList.remove('has-scroll');
-                atualizarPlanoDeposito('teste-20');
+                definirModoPlanoDeposito(false);
             }
             modal.classList.add('open');
             document.body.classList.add('modal-open');
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.abrirDepositoComPlano = function (planoValor) {
         openModal('depositModal');
-        atualizarPlanoDeposito(planoValor);
+        definirModoPlanoDeposito(true, planoValor);
     };
 
     document.addEventListener('keydown', (e) => {
@@ -98,13 +98,44 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${meses[d.getMonth()]}/${d.getFullYear()}`;
     }
 
-    function atualizarPlanoDeposito(planoValor) {
-        const nomeEl = document.getElementById('depositPlanoNome');
+    function atualizarLabelPlanoSelecionado() {
+        const selectEl = document.getElementById('depositPlanoSelect');
         const hiddenInput = document.getElementById('depositPlano');
-        const chave = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
-        const info = PLANOS_INFO[chave];
-        if (nomeEl) nomeEl.textContent = `${info.nome} — ${formatarMoeda(info.valor)}`;
-        if (hiddenInput) hiddenInput.value = chave;
+        if (hiddenInput) hiddenInput.value = selectEl ? selectEl.value : 'teste-20';
+    }
+
+    // Controla o campo de plano do modal de Depósito nos dois modos:
+    // - bloqueado=true  → usado pelo "Alugar" (Investir): mostra o plano
+    //   travado, sem opção de trocar.
+    // - bloqueado=false → usado pelo "Depositar" genérico (Início): mostra
+    //   o <select> para a pessoa escolher entre os 3 planos.
+    function definirModoPlanoDeposito(bloqueado, planoValor) {
+        const selectEl = document.getElementById('depositPlanoSelect');
+        const displayEl = document.getElementById('depositPlanoNome');
+        const hiddenInput = document.getElementById('depositPlano');
+
+        if (bloqueado) {
+            const chave = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
+            const info = PLANOS_INFO[chave];
+            if (displayEl) {
+                displayEl.textContent = `${info.nome} — ${formatarMoeda(info.valor)}`;
+                displayEl.style.display = 'block';
+            }
+            if (selectEl) selectEl.style.display = 'none';
+            if (hiddenInput) hiddenInput.value = chave;
+        } else {
+            if (selectEl) {
+                selectEl.style.display = '';
+                selectEl.value = 'teste-20';
+            }
+            if (displayEl) displayEl.style.display = 'none';
+            if (hiddenInput) hiddenInput.value = selectEl ? selectEl.value : 'teste-20';
+        }
+    }
+
+    const depositPlanoSelect = document.getElementById('depositPlanoSelect');
+    if (depositPlanoSelect) {
+        depositPlanoSelect.addEventListener('change', atualizarLabelPlanoSelecionado);
     }
 
     // Registra a compra do plano no Realtime Database assim que o Pix é
