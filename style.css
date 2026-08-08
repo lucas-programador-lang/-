@@ -90,6 +90,7 @@ body {
     line-height: 1.5;
     font-feature-settings: "ss01" on, "cv11" on;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body.app-body {
@@ -97,32 +98,53 @@ body.app-body {
     justify-content: flex-start;
 }
 
+/* Fundo em camadas: profundidade real em vez de um único radial-gradient plano.
+   Camada 1 = cor/luz ambiente, Camada 2 = grão sutil, Camada 3 = vinheta. */
 body::before {
     content: "";
     position: fixed;
-    inset: 0;
-    z-index: -2;
+    inset: -10%;
+    z-index: -3;
     background:
-        radial-gradient(ellipse 820px 580px at 6% -10%, rgba(32, 178, 170, 0.26), transparent 58%),
-        radial-gradient(ellipse 780px 700px at 110% 6%, rgba(0, 229, 255, 0.19), transparent 55%),
-        radial-gradient(ellipse 640px 540px at 80% 94%, rgba(99, 102, 241, 0.15), transparent 60%),
-        radial-gradient(ellipse 920px 620px at 26% 118%, rgba(14, 95, 90, 0.24), transparent 60%),
-        radial-gradient(ellipse 500px 380px at 50% 40%, rgba(125, 249, 255, 0.05), transparent 65%),
-        radial-gradient(ellipse 1300px 900px at 50% 50%, transparent 38%, rgba(1, 4, 8, 0.62) 100%),
+        radial-gradient(ellipse 860px 620px at 4% -12%, rgba(32, 178, 170, 0.30), transparent 58%),
+        radial-gradient(ellipse 820px 740px at 112% 4%, rgba(0, 229, 255, 0.21), transparent 55%),
+        radial-gradient(ellipse 680px 560px at 82% 96%, rgba(99, 102, 241, 0.16), transparent 60%),
+        radial-gradient(ellipse 960px 660px at 22% 122%, rgba(14, 95, 90, 0.28), transparent 60%),
+        radial-gradient(ellipse 560px 420px at 50% 42%, rgba(125, 249, 255, 0.06), transparent 65%),
         linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-dark-2) 100%);
+    animation: bg-drift 26s ease-in-out infinite alternate;
+    will-change: transform;
 }
 
+/* Vinheta + grid separados do gradiente de cor, para manter as bordas
+   sempre escuras e nítidas independente da animação de fundo */
 body::after {
     content: "";
     position: fixed;
     inset: 0;
-    z-index: -1;
-    opacity: 0.4;
+    z-index: -2;
     background-image:
         linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
     background-size: 42px 42px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000 20%, transparent 80%);
+    opacity: 0.4;
+}
+
+@keyframes bg-drift {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(-1.2%, 1%, 0) scale(1.03); }
+}
+
+/* Vinheta de contenção — escurece levemente os cantos da tela real (não do fundo) */
+.container::after,
+.app-layout::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse 1300px 900px at 50% 50%, transparent 42%, rgba(1, 4, 8, 0.55) 100%);
 }
 
 ::selection {
@@ -161,9 +183,10 @@ input:focus-visible,
    AUTH / CARD LAYOUT
    ============================================================= */
 .container {
+    position: relative;
     width: 100%;
     max-width: 480px;
-    padding: 20px;
+    padding: clamp(16px, 4vw, 20px);
 }
 
 .card {
@@ -172,9 +195,10 @@ input:focus-visible,
         linear-gradient(160deg, var(--bg-card) 0%, var(--bg-card-2) 100%);
     border: 1px solid var(--border-primary);
     border-radius: var(--radius-lg);
-    padding: 38px 34px;
+    padding: clamp(26px, 5vw, 38px) clamp(20px, 4.5vw, 34px);
     box-shadow: var(--shadow-lg), var(--shadow-glow), var(--shadow-inset-top);
     backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
     overflow: hidden;
     animation: card-rise 550ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -230,7 +254,7 @@ h1, h2, h3 {
     letter-spacing: -0.01em;
 }
 
-h1 { font-size: 27px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
+h1 { font-size: clamp(23px, 5vw, 27px); font-weight: 700; margin-bottom: 8px; letter-spacing: -0.02em; }
 h2 { font-size: 20px; font-weight: 600; margin-bottom: 16px; }
 h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 
@@ -469,6 +493,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     background: linear-gradient(180deg, rgba(13, 24, 38, 0.94) 0%, rgba(10, 18, 29, 0.98) 100%);
     border-right: 1px solid var(--border-soft);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     position: sticky;
     top: 0;
     height: 100vh;
@@ -747,7 +772,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .page-title {
-    font-size: 25px;
+    font-size: clamp(21px, 3.4vw, 25px);
     font-weight: 700;
     text-align: left;
     margin-bottom: 20px;
@@ -839,11 +864,16 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     border: 1px solid var(--border-primary);
     margin-bottom: 22px;
     box-shadow: var(--shadow-sm), var(--shadow-inset-top);
+    transition: box-shadow var(--transition), border-color var(--transition);
 }
 
+/* Card de saldo com mais profundidade: gradiente radial de luz vindo do topo,
+   borda em degradê e leve elevação — sem alterar as cores da marca */
 .balance-card {
-    background: linear-gradient(135deg, #0c1826 0%, #123650 100%);
-    padding: 28px;
+    background:
+        radial-gradient(ellipse 460px 240px at 15% -25%, rgba(0, 229, 255, 0.14), transparent 65%),
+        linear-gradient(135deg, #0c1826 0%, #123650 100%);
+    padding: clamp(22px, 4vw, 28px);
     border-radius: var(--radius-md);
     border: 1px solid var(--border-primary);
     text-align: left;
@@ -888,7 +918,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .balance-card h2 {
     text-align: left;
     color: var(--primary-light);
-    font-size: 33px;
+    font-size: clamp(27px, 5vw, 33px);
     font-weight: 700;
     margin-top: 8px;
     margin-bottom: 0;
@@ -951,11 +981,11 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     text-align: center;
     display: flex;
     flex-direction: column;
-    transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+    transition: transform var(--transition-slow), border-color var(--transition), box-shadow var(--transition-slow);
 }
 
 .yacht-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     border-color: var(--border-primary);
     box-shadow: var(--shadow-md);
 }
@@ -963,6 +993,9 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .yacht-card-popular {
     border-color: var(--border-primary);
     box-shadow: var(--shadow-glow);
+    background:
+        radial-gradient(ellipse 300px 180px at 50% -10%, rgba(32, 178, 170, 0.10), transparent 70%),
+        linear-gradient(160deg, var(--bg-card), var(--bg-card-2));
 }
 
 .yacht-popular-tag {
@@ -1190,6 +1223,14 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     color: var(--text-color);
 }
 
+.extrato-table tbody tr {
+    transition: background var(--transition);
+}
+
+.extrato-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.025);
+}
+
 .extrato-table td[colspan] {
     white-space: normal;
     min-width: 0;
@@ -1242,6 +1283,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     color: var(--text-color);
     animation: toast-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
     overflow: hidden;
@@ -1366,6 +1408,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     z-index: 200;
     background: rgba(3, 7, 13, 0.75);
     backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -1608,6 +1651,23 @@ body.modal-open {
     }
 }
 
+/* Faixa intermediária (tablets/telas médias) — evita o salto brusco
+   entre o layout mobile empilhado e o layout desktop com sidebar */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .dashboard-container {
+        padding: 28px;
+    }
+
+    .card {
+        max-width: 460px;
+        margin: 0 auto;
+    }
+
+    .grid-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 @media (min-width: 1024px) {
     .dashboard-container {
         padding: 32px;
@@ -1641,7 +1701,9 @@ body.modal-open {
     }
 
     .stat-card,
-    .header-dash {
+    .header-dash,
+    .balance-card,
+    .profile-card {
         transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
     }
 
@@ -1649,6 +1711,15 @@ body.modal-open {
         transform: translateY(-3px);
         border-color: var(--border-primary);
         box-shadow: var(--shadow-md);
+    }
+
+    .header-dash:hover {
+        border-color: rgba(32, 178, 170, 0.45);
+        box-shadow: var(--shadow-md), var(--shadow-inset-top);
+    }
+
+    .balance-card:hover {
+        box-shadow: var(--shadow-lg), var(--shadow-glow);
     }
 }
 
@@ -1659,6 +1730,20 @@ body.modal-open {
 
     .dashboard-container {
         max-width: 960px;
+    }
+}
+
+@media (min-width: 1600px) {
+    .main-content {
+        padding: 56px 84px;
+    }
+
+    .dashboard-container {
+        max-width: 1040px;
+    }
+
+    .grid-yacht {
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
@@ -1855,11 +1940,30 @@ body.modal-open {
     }
 }
 
+/* Telas muito pequenas (celulares compactos) */
+@media (max-width: 360px) {
+    .card {
+        padding: 22px 16px;
+    }
+
+    .balance-card {
+        padding: 18px;
+    }
+
+    .yacht-card {
+        padding: 18px;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.001ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.001ms !important;
         scroll-behavior: auto !important;
+    }
+
+    body::before {
+        animation: none !important;
     }
 }
