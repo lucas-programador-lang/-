@@ -122,6 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
             duracaoDias: info.duracaoDias,
             dataAtivacao: Date.now()
         });
+
+        // Credita 10% de comissão de 1º nível para quem indicou este usuário
+        if (referredByUid) {
+            firebaseDb.ref('commissions/' + referredByUid).push({
+                fromUid: user.uid,
+                fromName: user.displayName || user.email,
+                valor: info.valor * 0.10,
+                createdAt: Date.now()
+            });
+        }
     }
 
     // Preenche a página Carteira (totais + tabela de planos ativos) a
@@ -219,6 +229,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
     }
 
+    // Preenche a tabela "Membros da Rede" e o "Total de Indicados" (Equipe)
+    // a partir de referrals/{uid} no Realtime Database.
+    function renderizarMembrosRede(referralsData) {
+        const tbody = document.getElementById('membrosRedeBody');
+        const totalIndicadosEl = document.getElementById('totalIndicados');
+        if (!tbody) return;
+
+        const membros = referralsData ? Object.values(referralsData) : [];
+
+        if (totalIndicadosEl) totalIndicadosEl.textContent = String(membros.length);
+
+        if (!membros.length) {
+            tbody.innerHTML = '<tr><td colspan="2" class="muted">Nenhum membro na sua rede ainda. Compartilhe seu link de indicação para começar.</td></tr>';
+            return;
+        }
+
+        membros.sort((a, b) => b.createdAt - a.createdAt);
+
+        tbody.innerHTML = membros.map((membro) => {
+            const dataFormatada = new Date(membro.createdAt).toLocaleDateString('pt-BR');
+            return `
+                <tr>
+                    <td>${dataFormatada}</td>
+                    <td>${membro.referredName || '-'}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // Soma as comissões recebidas (commissions/{uid}) e atualiza o card
+    // "Comissões (1º Nível - 10%)" da Equipe.
+    function renderizarComissoes(commissionsData) {
+        const comissaoEl = document.getElementById('comissaoNivel1');
+        if (!comissaoEl) return;
+        const comissoes = commissionsData ? Object.values(commissionsData) : [];
+        const total = comissoes.reduce((soma, c) => soma + (c.valor || 0), 0);
+        comissaoEl.textContent = formatarMoeda(total);
+    }
+
     // ===== Toasts (substitui os alert() nativos do navegador) =====
     window.showToast = function (type, title, message) {
         const container = document.getElementById('toastContainer');
@@ -305,6 +354,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Saldo do usuário mantido em memória, atualizado em tempo real pelo
     // listener do Firebase Realtime Database (ver bloco do dashboard abaixo).
     let currentBalance = 0;
+    // uid de quem indicou o usuário logado (se houver), usado para creditar
+    // a comissão de 1º nível quando este usuário ativa um plano.
+    let referredByUid = null;
 
     window.solicitarSaque = function () {
         const valorInput = document.getElementById('sacarValor');
@@ -427,12 +479,40 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (perfilNomeCompleto && !perfilNomeCompleto.value) {
                         perfilNomeCompleto.value = data.fullName || '';
                     }
+
+                    // Guarda quem indicou este usuário, usado ao ativar um plano
+                    referredByUid = data.referredBy || null;
+
+                    // Monta o link de indicação real (Equipe) com o código único do usuário
+                    const refLinkInput = document.getElementById('refLink');
+                    if (refLinkInput && data.refCode) {
+                        refLinkInput.value = `${window.location.origin}/register.html?ref=${data.refCode}`;
+                    }
                 });
 
-                // Escuta em tempo real os planos comprados (Carteira)
+                // Escuta em tempo real os planos comprados (Carteira e Extrato)
+                let ultimoPlanosData = null;
                 userRef.child('planos').on('value', (snapshot) => {
-                    renderizarCarteira(snapshot.val());
+                    ultimoPlanosData = snapshot.val();
+                    renderizarCarteira(ultimoPlanosData);
+                    renderizarExtrato(ultimoPlanosData);
                 });
+
+                // Escuta em tempo real os indicados e as comissões (Equipe)
+                firebaseDb.ref('referrals/' + user.uid).on('value', (snapshot) => {
+                    renderizarMembrosRede(snapshot.val());
+                });
+                firebaseDb.ref('commissions/' + user.uid).on('value', (snapshot) => {
+                    renderizarComissoes(snapshot.val());
+                });
+
+                // Rendimento diário e status "Concluído" dependem do tempo
+                // decorrido — recalcula periodicamente para não precisar
+                // recarregar a página para ver a virada do dia.
+                setInterval(() => {
+                    renderizarCarteira(ultimoPlanosData);
+                    renderizarExtrato(ultimoPlanosData);
+                }, 60000);
             });
         } else {
             console.error('Auth não está definido. A rota do dashboard não pôde ser protegida.');
