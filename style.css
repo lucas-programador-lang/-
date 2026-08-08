@@ -112,9 +112,10 @@ body::before {
     inset: 0;
     z-index: -3;
     background:
-        radial-gradient(ellipse 900px 640px at 8% -8%, rgba(32, 178, 170, 0.22), transparent 60%),
-        radial-gradient(ellipse 820px 620px at 105% 8%, rgba(0, 229, 255, 0.14), transparent 58%),
-        radial-gradient(ellipse 900px 620px at 30% 112%, rgba(14, 95, 90, 0.20), transparent 62%),
+        radial-gradient(ellipse 900px 640px at 8% -8%, rgba(32, 178, 170, 0.24), transparent 60%),
+        radial-gradient(ellipse 820px 620px at 105% 8%, rgba(0, 229, 255, 0.16), transparent 58%),
+        radial-gradient(ellipse 620px 480px at 88% 78%, rgba(212, 175, 106, 0.07), transparent 62%),
+        radial-gradient(ellipse 900px 620px at 30% 112%, rgba(14, 95, 90, 0.22), transparent 62%),
         linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-dark-2) 100%);
 }
 
@@ -543,7 +544,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     flex-grow: 1;
 }
 
@@ -553,7 +554,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     align-items: center;
     gap: 13px;
     width: 100%;
-    padding: 11px 14px;
+    padding: 12px 14px;
     background: transparent;
     border: none;
     border-radius: var(--radius-sm);
@@ -694,23 +695,27 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     display: none;
     position: relative;
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    min-height: 40px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
     aspect-ratio: 1 / 1;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid var(--border-soft);
-    border-radius: 10px;
+    background: rgba(32, 178, 170, 0.08);
+    border: 1px solid var(--border-soft-2);
+    border-radius: 11px;
     cursor: pointer;
-    transition: background var(--transition), border-color var(--transition);
+    transition: background var(--transition), border-color var(--transition), transform var(--transition);
 }
 
 .hamburger-btn:hover {
-    background: rgba(32, 178, 170, 0.1);
+    background: rgba(32, 178, 170, 0.14);
     border-color: var(--border-primary);
+}
+
+.hamburger-btn:active {
+    transform: scale(0.92);
 }
 
 .hamburger-btn span {
@@ -727,6 +732,11 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 .hamburger-btn span:nth-child(1) { top: 13px; }
 .hamburger-btn span:nth-child(2) { top: 19px; }
 .hamburger-btn span:nth-child(3) { top: 25px; }
+
+.hamburger-btn.is-open {
+    background: rgba(32, 178, 170, 0.16);
+    border-color: var(--border-primary);
+}
 
 .hamburger-btn.is-open span:nth-child(1) {
     top: 19px;
@@ -1472,24 +1482,23 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     appearance: none;
     -webkit-appearance: none;
     position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    min-height: 36px;
+    top: 14px;
+    right: 14px;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
     display: block;
-    background: linear-gradient(160deg, rgba(32, 178, 170, 0.14), rgba(255, 255, 255, 0.03));
-    border: 1px solid rgba(140, 232, 226, 0.22);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-soft);
     border-radius: 50%;
-    color: var(--text-color);
+    color: var(--text-muted);
     font-size: 0;
     line-height: 0;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
-    transition: background var(--transition-slow), color var(--transition), border-color var(--transition), box-shadow var(--transition-slow), transform var(--transition-slow);
+    transition: background var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .modal-close::before,
@@ -1498,11 +1507,10 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 13px;
-    height: 2.5px;
+    width: 11px;
+    height: 1.5px;
     border-radius: 2px;
     background: currentColor;
-    transition: background var(--transition);
 }
 
 .modal-close::before {
@@ -1513,23 +1521,17 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-/* Efeito de giro/glow só em dispositivos com mouse de verdade — em touch o
-   :hover pode "grudar" depois de tocar e deixar o botão preso no estado ativo */
 @media (hover: hover) and (pointer: fine) {
     .modal-close:hover {
-        background: linear-gradient(160deg, rgba(242, 73, 92, 0.22), rgba(242, 73, 92, 0.06));
-        border-color: rgba(242, 73, 92, 0.45);
+        background: var(--danger-bg);
+        border-color: rgba(242, 73, 92, 0.35);
         color: var(--danger);
-        box-shadow: 0 6px 20px -2px rgba(242, 73, 92, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-        transform: rotate(90deg);
     }
 }
 
 .modal-close:active {
-    background: linear-gradient(160deg, rgba(242, 73, 92, 0.24), rgba(242, 73, 92, 0.08));
-    border-color: rgba(242, 73, 92, 0.45);
+    background: var(--danger-bg);
     color: var(--danger);
-    transform: scale(0.90);
 }
 
 body.modal-open {
@@ -1841,7 +1843,7 @@ body.modal-open {
     }
 
     .sidebar-close {
-        display: none !important;
+        display: flex !important;
     }
 
     .sidebar-overlay {
