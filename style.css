@@ -1102,6 +1102,14 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     box-shadow: var(--shadow-sm);
 }
 
+.rules-box p {
+    margin-bottom: 8px;
+}
+
+.rules-box p:last-child {
+    margin-bottom: 0;
+}
+
 .info-box + .info-box,
 .info-box + .grid-stats {
     margin-top: 16px;
