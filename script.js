@@ -80,6 +80,32 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarCloseBtn?.addEventListener('click', closeSidebar);
     }
 
+    // ===== Carrossel de Planos (Investir) — exibe 1 plano por vez =====
+    const yachtCarousel = document.getElementById('yachtCarousel');
+    if (yachtCarousel) {
+        const slides = Array.from(yachtCarousel.querySelectorAll('.yacht-card'));
+        const dotsWrap = document.getElementById('yachtDots');
+        const dots = dotsWrap ? Array.from(dotsWrap.querySelectorAll('.yacht-carousel-dot')) : [];
+        const prevBtn = document.getElementById('yachtPrev');
+        const nextBtn = document.getElementById('yachtNext');
+        const counter = document.getElementById('yachtCounter');
+        let current = 0;
+
+        function goToSlide(index) {
+            if (!slides.length) return;
+            current = (index + slides.length) % slides.length;
+            slides.forEach((slide, i) => slide.classList.toggle('active', i === current));
+            dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+            if (counter) counter.textContent = `${current + 1} / ${slides.length}`;
+        }
+
+        prevBtn?.addEventListener('click', () => goToSlide(current - 1));
+        nextBtn?.addEventListener('click', () => goToSlide(current + 1));
+        dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+
+        goToSlide(0);
+    }
+
     // ===== Toasts (substitui os alert() nativos do navegador) =====
     window.showToast = function (type, title, message) {
         const container = document.getElementById('toastContainer');
