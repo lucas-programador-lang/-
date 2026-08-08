@@ -129,76 +129,95 @@
             <section class="page-section" id="section-investir">
                 <h1 class="page-title">Investir</h1>
                 <p class="page-subtitle">Escolha um plano Yacht e comece a gerar rendimento diário.</p>
-                <div class="grid-yacht">
-                    <div class="yacht-card">
-                        <div class="yacht-card-header">
-                            <h3>YACHT Teste</h3>
-                            <span class="yacht-badge">4 dias</span>
-                        </div>
-                        <div class="yacht-return">
-                            <span class="yacht-return-label">Retorno Diário</span>
-                            <span class="yacht-return-value">R$ 2,50</span>
-                        </div>
-                        <div class="yacht-divider"></div>
-                        <div class="yacht-meta">
-                            <div class="yacht-meta-item">
-                                <span>Investimento</span>
-                                <strong>R$ 20,00</strong>
+
+                <!-- Carrossel: mostra 1 plano por vez, navegue com as setas ou bolinhas -->
+                <div class="yacht-carousel" id="yachtCarousel">
+                    <div class="yacht-carousel-viewport">
+                        <div class="yacht-card active">
+                            <div class="yacht-card-header">
+                                <h3>YACHT Teste</h3>
+                                <span class="yacht-badge">4 dias</span>
                             </div>
-                            <div class="yacht-meta-item">
-                                <span>Duração</span>
-                                <strong>4 dias</strong>
+                            <div class="yacht-return">
+                                <span class="yacht-return-label">Retorno Diário</span>
+                                <span class="yacht-return-value">R$ 2,50</span>
                             </div>
+                            <div class="yacht-divider"></div>
+                            <div class="yacht-meta">
+                                <div class="yacht-meta-item">
+                                    <span>Investimento</span>
+                                    <strong>R$ 20,00</strong>
+                                </div>
+                                <div class="yacht-meta-item">
+                                    <span>Duração</span>
+                                    <strong>4 dias</strong>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="abrirDepositoComPlano('teste-20')">Alugar</button>
                         </div>
-                        <button class="btn" onclick="abrirDepositoComPlano('teste-20')">Alugar</button>
+
+                        <div class="yacht-card yacht-card-popular">
+                            <span class="yacht-popular-tag">Mais Popular</span>
+                            <div class="yacht-card-header">
+                                <h3>YACHT IRWIN</h3>
+                                <span class="yacht-badge">30 dias</span>
+                            </div>
+                            <div class="yacht-return">
+                                <span class="yacht-return-label">Retorno Diário</span>
+                                <span class="yacht-return-value">R$ 3,35</span>
+                            </div>
+                            <div class="yacht-divider"></div>
+                            <div class="yacht-meta">
+                                <div class="yacht-meta-item">
+                                    <span>Investimento</span>
+                                    <strong>R$ 50,00</strong>
+                                </div>
+                                <div class="yacht-meta-item">
+                                    <span>Duração</span>
+                                    <strong>30 dias</strong>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="abrirDepositoComPlano('irwin-50')">Alugar</button>
+                        </div>
+
+                        <div class="yacht-card">
+                            <div class="yacht-card-header">
+                                <h3>YACHT HUNTER</h3>
+                                <span class="yacht-badge">30 dias</span>
+                            </div>
+                            <div class="yacht-return">
+                                <span class="yacht-return-label">Retorno Diário</span>
+                                <span class="yacht-return-value">R$ 9,00</span>
+                            </div>
+                            <div class="yacht-divider"></div>
+                            <div class="yacht-meta">
+                                <div class="yacht-meta-item">
+                                    <span>Investimento</span>
+                                    <strong>R$ 150,00</strong>
+                                </div>
+                                <div class="yacht-meta-item">
+                                    <span>Duração</span>
+                                    <strong>30 dias</strong>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="abrirDepositoComPlano('hunter-150')">Alugar</button>
+                        </div>
                     </div>
 
-                    <div class="yacht-card yacht-card-popular">
-                        <span class="yacht-popular-tag">Mais Popular</span>
-                        <div class="yacht-card-header">
-                            <h3>YACHT IRWIN</h3>
-                            <span class="yacht-badge">30 dias</span>
+                    <div class="yacht-carousel-nav">
+                        <button class="yacht-carousel-btn" id="yachtPrev" aria-label="Plano anterior">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+                        </button>
+                        <div class="yacht-carousel-dots" id="yachtDots">
+                            <button class="yacht-carousel-dot active" aria-label="Ir para plano 1"></button>
+                            <button class="yacht-carousel-dot" aria-label="Ir para plano 2"></button>
+                            <button class="yacht-carousel-dot" aria-label="Ir para plano 3"></button>
                         </div>
-                        <div class="yacht-return">
-                            <span class="yacht-return-label">Retorno Diário</span>
-                            <span class="yacht-return-value">R$ 3,35</span>
-                        </div>
-                        <div class="yacht-divider"></div>
-                        <div class="yacht-meta">
-                            <div class="yacht-meta-item">
-                                <span>Investimento</span>
-                                <strong>R$ 50,00</strong>
-                            </div>
-                            <div class="yacht-meta-item">
-                                <span>Duração</span>
-                                <strong>30 dias</strong>
-                            </div>
-                        </div>
-                        <button class="btn" onclick="abrirDepositoComPlano('irwin-50')">Alugar</button>
+                        <button class="yacht-carousel-btn" id="yachtNext" aria-label="Próximo plano">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+                        </button>
                     </div>
-
-                    <div class="yacht-card">
-                        <div class="yacht-card-header">
-                            <h3>YACHT HUNTER</h3>
-                            <span class="yacht-badge">30 dias</span>
-                        </div>
-                        <div class="yacht-return">
-                            <span class="yacht-return-label">Retorno Diário</span>
-                            <span class="yacht-return-value">R$ 9,00</span>
-                        </div>
-                        <div class="yacht-divider"></div>
-                        <div class="yacht-meta">
-                            <div class="yacht-meta-item">
-                                <span>Investimento</span>
-                                <strong>R$ 150,00</strong>
-                            </div>
-                            <div class="yacht-meta-item">
-                                <span>Duração</span>
-                                <strong>30 dias</strong>
-                            </div>
-                        </div>
-                        <button class="btn" onclick="abrirDepositoComPlano('hunter-150')">Alugar</button>
-                    </div>
+                    <p class="yacht-carousel-counter" id="yachtCounter">1 / 3</p>
                 </div>
             </section>
 
