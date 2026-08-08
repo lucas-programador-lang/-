@@ -299,6 +299,43 @@ document.addEventListener('DOMContentLoaded', () => {
         comissaoEl.textContent = formatarMoeda(total);
     }
 
+    // Rótulos amigáveis para o tipo de chave PIX, usados no modal de Saque
+    const PIX_TIPO_LABEL = {
+        cpf: 'CPF',
+        email: 'E-mail',
+        telefone: 'Telefone',
+        aleatoria: 'Chave Aleatória'
+    };
+
+    // Salva Nome Completo + Chave PIX (Perfil) no Realtime Database.
+    // É esse cadastro que passa a aparecer no modal de Saque (Início).
+    window.salvarPerfil = function () {
+        const user = firebaseAuth.currentUser;
+        if (!user) return;
+
+        const nomeInput = document.getElementById('perfilNomeCompleto');
+        const tipoPixInput = document.getElementById('perfilTipoPix');
+        const chavePixInput = document.getElementById('perfilChavePix');
+
+        const chavePix = chavePixInput ? chavePixInput.value.trim() : '';
+        if (!chavePix) {
+            showToast('warning', 'Chave PIX obrigatória', 'Informe sua chave PIX para poder solicitar saques.');
+            chavePixInput?.focus();
+            return;
+        }
+
+        firebaseDb.ref('users/' + user.uid).update({
+            fullName: nomeInput ? nomeInput.value.trim() : '',
+            pixTipo: tipoPixInput ? tipoPixInput.value : 'cpf',
+            pixChave: chavePix
+        }).then(() => {
+            showToast('success', 'Alterações salvas!');
+        }).catch((err) => {
+            console.error('Erro ao salvar perfil:', err);
+            showToast('error', 'Erro ao salvar', 'Tente novamente em instantes.');
+        });
+    };
+
     // ===== Toasts (substitui os alert() nativos do navegador) =====
     window.showToast = function (type, title, message) {
         const container = document.getElementById('toastContainer');
@@ -388,11 +425,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // uid de quem indicou o usuário logado (se houver), usado para creditar
     // a comissão de 1º nível quando este usuário ativa um plano.
     let referredByUid = null;
+    // Chave PIX cadastrada em Perfil (null enquanto não houver nenhuma) —
+    // usada para exibir no modal de Saque e bloquear o pedido sem chave.
+    let chavePixCadastrada = null;
 
     window.solicitarSaque = function () {
         const valorInput = document.getElementById('sacarValor');
         const valorTexto = valorInput.value.trim();
         const valor = parseFloat(valorTexto);
+
+        if (!chavePixCadastrada) {
+            showToast('warning', 'Chave PIX necessária', 'Cadastre uma chave PIX em Perfil antes de solicitar o saque.');
+            return;
+        }
 
         if (!valorTexto || isNaN(valor)) {
             showToast('warning', 'Valor obrigatório', 'Digite o valor que deseja sacar.');
@@ -501,6 +546,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const perfilUsuario = document.getElementById('perfilUsuario');
                     const perfilSaldo = document.getElementById('perfilSaldo');
                     const perfilNomeCompleto = document.getElementById('perfilNomeCompleto');
+                    const perfilTipoPix = document.getElementById('perfilTipoPix');
+                    const perfilChavePix = document.getElementById('perfilChavePix');
                     if (perfilUsuario) {
                         perfilUsuario.innerText = data.fullName || user.email || '-';
                     }
@@ -509,6 +556,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     if (perfilNomeCompleto && !perfilNomeCompleto.value) {
                         perfilNomeCompleto.value = data.fullName || '';
+                    }
+                    // Só preenche uma vez (na primeira leitura), pra não
+                    // sobrescrever o que a pessoa está digitando agora.
+                    if (perfilTipoPix && !perfilTipoPix.dataset.carregado) {
+                        perfilTipoPix.value = data.pixTipo || 'cpf';
+                        perfilTipoPix.dataset.carregado = 'true';
+                    }
+                    if (perfilChavePix && !perfilChavePix.value) {
+                        perfilChavePix.value = data.pixChave || '';
+                    }
+
+                    // Atualiza a chave PIX exibida no modal de Saque (Início)
+                    chavePixCadastrada = data.pixChave || null;
+                    const sacarChavePixEl = document.getElementById('sacarChavePix');
+                    if (sacarChavePixEl) {
+                        if (chavePixCadastrada) {
+                            const tipoLabel = PIX_TIPO_LABEL[data.pixTipo] || 'Chave PIX';
+                            sacarChavePixEl.textContent = `${tipoLabel}: ${chavePixCadastrada}`;
+                            sacarChavePixEl.classList.remove('withdraw-key-missing');
+                            sacarChavePixEl.classList.add('withdraw-key-set');
+                        } else {
+                            sacarChavePixEl.textContent = 'Nenhuma chave cadastrada — vá em Perfil e cadastre uma.';
+                            sacarChavePixEl.classList.add('withdraw-key-missing');
+                            sacarChavePixEl.classList.remove('withdraw-key-set');
+                        }
                     }
 
                     // Guarda quem indicou este usuário, usado ao ativar um plano
