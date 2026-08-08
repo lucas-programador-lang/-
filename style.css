@@ -808,6 +808,36 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     margin-bottom: 16px;
 }
 
+/* Cards de seção usados no Perfil — borda completa ao redor (como o
+   card de login), em vez da barra lateral do .form-box */
+.profile-card {
+    background: linear-gradient(160deg, var(--bg-card), var(--bg-card-2));
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    padding: 28px 30px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-md), var(--shadow-inset-top);
+}
+
+.profile-card:last-child {
+    margin-bottom: 0;
+}
+
+.profile-card-title {
+    text-align: left;
+    font-size: 16px;
+    margin: 0 0 12px 0;
+    color: var(--text-color);
+}
+
+.profile-card .form-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.profile-card .btn {
+    margin-top: 20px;
+}
+
 /* =============================================================
    DASHBOARD
    ============================================================= */
