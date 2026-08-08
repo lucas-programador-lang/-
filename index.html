@@ -130,18 +130,8 @@
                 <h1 class="page-title">Investir</h1>
                 <p class="page-subtitle">Escolha um plano Yacht e comece a gerar rendimento diário.</p>
 
-                <!-- Seletor: escolha o plano no dropdown e só o card correspondente aparece -->
-                <div class="yacht-selector" id="yachtSelector">
-                    <div class="form-group yacht-selector-select">
-                        <label for="investirPlanoSelect">Escolha o Plano</label>
-                        <select id="investirPlanoSelect">
-                            <option value="teste-20">YACHT Teste — R$ 20,00 (4 dias)</option>
-                            <option value="irwin-50">YACHT IRWIN — R$ 50,00 (30 dias)</option>
-                            <option value="hunter-150">YACHT HUNTER — R$ 150,00 (30 dias)</option>
-                        </select>
-                    </div>
-
-                    <div class="yacht-card active" data-plano="teste-20">
+                <div class="grid-yacht">
+                    <div class="yacht-card">
                         <div class="yacht-card-header">
                             <h3>YACHT Teste</h3>
                             <span class="yacht-badge">4 dias</span>
@@ -164,7 +154,7 @@
                         <button class="btn" onclick="abrirDepositoComPlano('teste-20')">Alugar</button>
                     </div>
 
-                    <div class="yacht-card yacht-card-popular" data-plano="irwin-50">
+                    <div class="yacht-card yacht-card-popular">
                         <span class="yacht-popular-tag">Mais Popular</span>
                         <div class="yacht-card-header">
                             <h3>YACHT IRWIN</h3>
@@ -188,7 +178,7 @@
                         <button class="btn" onclick="abrirDepositoComPlano('irwin-50')">Alugar</button>
                     </div>
 
-                    <div class="yacht-card" data-plano="hunter-150">
+                    <div class="yacht-card">
                         <div class="yacht-card-header">
                             <h3>YACHT HUNTER</h3>
                             <span class="yacht-badge">30 dias</span>
@@ -365,12 +355,9 @@
             <p class="subtitle" style="text-align:left; margin-bottom: 22px;">Selecione o plano desejado e gere o seu QR Code Pix.</p>
 
             <div class="form-group">
-                <label for="depositPlano">Valor do Plano / Depósito (R$)</label>
-                <select id="depositPlano">
-                    <option value="teste-20">YACHT Teste — Investimento: R$ 20,00</option>
-                    <option value="irwin-50">YACHT IRWIN — Investimento: R$ 50,00</option>
-                    <option value="hunter-150">YACHT HUNTER — Investimento: R$ 150,00</option>
-                </select>
+                <label>Plano / Depósito (R$)</label>
+                <div class="deposit-plano-display" id="depositPlanoNome">YACHT Teste — R$ 20,00</div>
+                <input type="hidden" id="depositPlano" value="teste-20">
             </div>
 
             <div class="form-group">
