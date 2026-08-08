@@ -883,97 +883,24 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 /* =============================================================
-   CARROSSEL DE PLANOS (Investir) — exibe 1 plano por vez
+   SELETOR DE PLANOS (Investir) — dropdown escolhe o plano,
+   só o card correspondente fica visível
    ============================================================= */
-.yacht-carousel {
-    position: relative;
-    max-width: 320px;
+.yacht-selector {
+    max-width: 340px;
     margin: 0 auto 22px auto;
 }
 
-.yacht-carousel-viewport {
-    padding-top: 14px;
+.yacht-selector-select {
+    margin-bottom: 20px;
 }
 
-.yacht-carousel .yacht-card {
+.yacht-selector .yacht-card {
     display: none;
 }
 
-.yacht-carousel .yacht-card.active {
+.yacht-selector .yacht-card.active {
     display: flex;
-}
-
-.yacht-carousel-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    margin-top: 18px;
-}
-
-.yacht-carousel-btn {
-    flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-soft);
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background var(--transition), border-color var(--transition), transform var(--transition);
-}
-
-.yacht-carousel-btn:hover {
-    background: rgba(32, 178, 170, 0.14);
-    border-color: var(--border-primary);
-    transform: translateY(-1px);
-}
-
-.yacht-carousel-btn:active {
-    transform: translateY(0);
-}
-
-.yacht-carousel-btn svg {
-    width: 18px;
-    height: 18px;
-    pointer-events: none;
-}
-
-.yacht-carousel-dots {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-}
-
-.yacht-carousel-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--border-soft-2);
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: background var(--transition), transform var(--transition);
-}
-
-.yacht-carousel-dot:hover {
-    background: rgba(32, 178, 170, 0.5);
-}
-
-.yacht-carousel-dot.active {
-    background: var(--primary-color);
-    transform: scale(1.35);
-}
-
-.yacht-carousel-counter {
-    text-align: center;
-    color: var(--text-faint);
-    font-size: 12px;
-    margin-top: 10px;
-    letter-spacing: 0.03em;
 }
 
 .yacht-card {
@@ -1656,7 +1583,7 @@ body.modal-open {
         font-size: 39px;
     }
 
-    .yacht-carousel {
+    .yacht-selector {
         max-width: 360px;
     }
 
