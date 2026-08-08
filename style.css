@@ -865,7 +865,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     padding: 28px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-primary);
-    text-align: center;
+    text-align: left;
     margin-bottom: 22px;
     box-shadow: var(--shadow-md), var(--shadow-glow);
     position: relative;
@@ -880,6 +880,21 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     pointer-events: none;
 }
 
+.balance-card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 6px;
+}
+
+.balance-card-header svg {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    color: var(--text-muted);
+}
+
 .balance-card span {
     color: var(--text-muted);
     font-size: 12.5px;
@@ -890,6 +905,7 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 }
 
 .balance-card h2 {
+    text-align: left;
     color: var(--primary-light);
     font-size: 33px;
     font-weight: 700;
@@ -902,14 +918,30 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
 
 .balance-actions {
     position: relative;
-    margin-top: 18px;
+    margin-top: 20px;
     display: flex;
     gap: 12px;
-    justify-content: center;
 }
 
 .balance-actions .btn {
-    width: 140px;
+    width: auto;
+    flex: 1;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.balance-actions .btn svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+}
+
+/* Variante à esquerda dos stat-card, usada nos cards logo abaixo do saldo */
+.stat-card-left {
+    text-align: left;
 }
 
 .grid-yacht {
