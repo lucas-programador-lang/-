@@ -57,6 +57,10 @@
     --accent-gold: #d4af6a;
     --accent-gold-soft: #e6cd9a;
     --accent-gold-deep: #a97f3f;
+    /* Mesmo dourado acima, só que translúcido — para hairlines e
+       texto de apoio, sem introduzir nenhuma cor nova ao arquivo */
+    --text-gold-muted: rgba(212, 175, 106, 0.68);
+    --border-gradient-gold: linear-gradient(135deg, rgba(230, 205, 154, 0.55), rgba(212, 175, 106, 0.16) 40%, rgba(255, 255, 255, 0.05) 70%, rgba(169, 127, 63, 0.4));
 
     /* Turquesa exato da logo.png (amostrado da própria imagem), usado
        no anel da logo para não destoar do ícone do barco */
@@ -848,15 +852,20 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     transition: box-shadow var(--transition), border-color var(--transition);
 }
 
+/* =============================================================
+   Bloco "hero" do Início — saldo + Depositar/Sacar + os dois
+   cards de resumo logo abaixo. Usa o mesmo dourado que já existia
+   só no valor do saldo, agora consistente nas 3 peças do bloco.
+   ============================================================= */
 .balance-card {
     background:
         radial-gradient(ellipse 460px 240px at 15% -25%, rgba(0, 229, 255, 0.16), transparent 65%),
         linear-gradient(135deg, #0c1826 0%, #123650 100%);
     padding: clamp(22px, 4vw, 28px);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     border: 1px solid var(--border-primary);
     text-align: left;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
     box-shadow: var(--shadow-md), var(--shadow-glow);
     position: relative;
     overflow: hidden;
@@ -867,20 +876,20 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     position: absolute;
     inset: 0;
     padding: 1px;
-    border-radius: var(--radius-md);
-    background: var(--border-gradient);
+    border-radius: var(--radius-lg);
+    background: var(--border-gradient-gold);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
-    opacity: 0.55;
+    opacity: 0.6;
 }
 
 .balance-card::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 420px 210px at 50% -20%, rgba(0, 229, 255, 0.2), transparent 70%);
+    background: radial-gradient(ellipse 420px 210px at 50% -20%, rgba(212, 175, 106, 0.12), transparent 70%);
     pointer-events: none;
 }
 
@@ -896,33 +905,34 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     flex-shrink: 0;
     width: 17px;
     height: 17px;
-    color: var(--text-muted);
+    color: var(--text-gold-muted);
 }
 
 .balance-card span {
-    color: var(--text-muted);
+    color: var(--text-gold-muted);
     font-size: 12.5px;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
-    font-weight: 600;
+    letter-spacing: 0.09em;
+    font-weight: 700;
     position: relative;
 }
 
 .balance-card h2 {
     text-align: left;
+    font-family: Georgia, 'Times New Roman', serif;
     color: var(--accent-gold-soft);
-    font-size: clamp(27px, 5vw, 33px);
+    font-size: clamp(27px, 5vw, 34px);
     font-weight: 700;
-    margin-top: 8px;
+    margin-top: 9px;
     margin-bottom: 0;
     text-shadow: 0 0 26px rgba(212, 175, 106, 0.35);
     position: relative;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
 }
 
 .balance-actions {
     position: relative;
-    margin-top: 20px;
+    margin-top: 22px;
     display: flex;
     gap: 12px;
 }
@@ -931,6 +941,8 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     width: auto;
     flex: 1;
     margin-top: 0;
+    padding: 14px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -943,8 +955,42 @@ h3 { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
     height: 16px;
 }
 
+/* Os dois cards logo abaixo do saldo (Rendimento Acumulado /
+   Comissões) — mesma "família" visual do balance-card: hairline
+   dourada fina e número em serifa dourada, formando um bloco só. */
 .stat-card-left {
+    position: relative;
     text-align: left;
+    overflow: hidden;
+}
+
+.stat-card-left::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: var(--radius-md);
+    background: var(--border-gradient-gold);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.45;
+}
+
+.stat-card-left span {
+    position: relative;
+    color: var(--text-gold-muted);
+    font-weight: 700;
+    letter-spacing: 0.07em;
+}
+
+.stat-card-left h2 {
+    position: relative;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--accent-gold-soft);
+    text-shadow: 0 0 20px rgba(212, 175, 106, 0.28);
+    letter-spacing: -0.01em;
 }
 
 .grid-yacht {
