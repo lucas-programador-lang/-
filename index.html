@@ -109,11 +109,31 @@
             <section class="page-section active" id="section-inicio">
                 <h1 class="page-title">Início</h1>
                 <div class="balance-card">
-                    <span>Saldo Disponível</span>
+                    <div class="balance-card-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M2.5 10h19"/></svg>
+                        <span>Saldo Disponível</span>
+                    </div>
                     <h2 id="userBalance">R$ 5,00</h2>
                     <div class="balance-actions">
-                        <button class="btn" onclick="openModal('depositModal')">Depositar</button>
-                        <button class="btn btn-success" onclick="openModal('sacarModal')">Sacar</button>
+                        <button class="btn" onclick="openModal('depositModal')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                            Depositar
+                        </button>
+                        <button class="btn btn-outline" onclick="openModal('sacarModal')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                            Sacar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid-stats">
+                    <div class="stat-card stat-card-left">
+                        <span>Rendimento Acumulado</span>
+                        <h2 id="rendimentoAcumuladoInicio">R$ 0,00</h2>
+                    </div>
+                    <div class="stat-card stat-card-left">
+                        <span>Comissões (1º Nível - 10%)</span>
+                        <h2 id="comissaoNivel1Inicio">R$ 0,00</h2>
                     </div>
                 </div>
 
