@@ -10,11 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     qrView.style.display = 'none';
                     document.getElementById('qrcodeCanvas').innerHTML = '';
                 }
-                // Reseta o scroll: enquanto o QR não é gerado, o modal
-                // não precisa (nem deve) rolar.
                 if (modalCard) modalCard.classList.remove('has-scroll');
-                // Padrão ao abrir via botão genérico "Depositar" (sem plano
-                // específico); abrirDepositoComPlano() sobrescreve isso em seguida.
                 atualizarPlanoDeposito('teste-20');
             }
             modal.classList.add('open');
@@ -30,8 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Usado pelos botões "Alugar" em Investir: abre o modal de Depósito
-    // já com o plano escolhido travado (sem opção de trocar).
     window.abrirDepositoComPlano = function (planoValor) {
         openModal('depositModal');
         atualizarPlanoDeposito(planoValor);
@@ -47,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ===== Menu hambúrguer (gaveta lateral no mobile) =====
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
@@ -59,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarOverlay.classList.add('open');
         hamburgerBtn.classList.add('is-open');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
-        document.body.classList.add('modal-open'); // reaproveita o travamento de scroll
+        document.body.classList.add('modal-open');
     }
 
     function closeSidebar() {
@@ -80,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sidebarCloseBtn?.addEventListener('click', closeSidebar);
     }
 
-    // ===== Plano travado no modal de Depósito (sem select — 1 plano por vez) =====
     const PLANOS_INFO = {
         'teste-20': 'YACHT Teste — R$ 20,00',
         'irwin-50': 'YACHT IRWIN — R$ 50,00',
@@ -95,11 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hiddenInput) hiddenInput.value = PLANOS_INFO[planoValor] ? planoValor : 'teste-20';
     }
 
-    // ===== Toasts (substitui os alert() nativos do navegador) =====
     window.showToast = function (type, title, message) {
         const container = document.getElementById('toastContainer');
         if (!container) {
-            // Fallback caso o container não exista na página
             alert(message ? `${title}\n${message}` : title);
             return;
         }
@@ -132,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(toast);
     };
 
-    // ===== QR Code Pix (modal de Depositar) =====
     window.gerarQrCodeDeposito = function () {
         const cpfInput = document.getElementById('depositCpf');
         const telefoneInput = document.getElementById('depositTelefone');
@@ -142,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Código Pix "copia e cola" (exemplo — substituir pela integração real do gateway)
         const pixCode = '00020126580014BR.GOV.BCB.PIX2572qrcode.cartwavehub.com.br/v2/qr/cob/945c7fe1-5dc0-49a1-be8d-041bf95642e05204000053039865802BR5925PLATAFORMA6009SAO PAULO62070503***6304ABCD';
 
         const qrContainer = document.getElementById('qrcodeCanvas');
@@ -164,9 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('depositPixCode').innerText = pixCode;
         document.getElementById('depositQrView').style.display = 'block';
 
-        // Só a partir daqui o modal pode precisar de scroll (o QR Code
-        // + código Pix aumentam a altura do conteúdo). Antes disso o
-        // formulário sempre cabe sem rolagem.
         const modalCard = document.querySelector('#depositModal .modal-card');
         if (modalCard) modalCard.classList.add('has-scroll');
     };
@@ -176,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.clipboard.writeText(pixCode).then(() => showToast('success', 'Código Pix copiado!'));
     };
 
-    // ===== Solicitação de Saque (modal de Sacar) =====
     const SAQUE_VALOR_MINIMO = 30;
 
     window.solicitarSaque = function () {
@@ -208,7 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeModal('sacarModal');
     };
 
-    // Tratamento do formulário de Login
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', (e) => {
@@ -240,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Tratamento do formulário de Registro
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', (e) => {
@@ -273,21 +255,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Se estiver na index (dashboard), protege a rota e atualiza dados
     if (window.location.pathname.includes('index.html') || window.location.pathname.endsWith('/')) {
         if (typeof Auth !== 'undefined') {
             Auth.protectRoute();
 
             const savedBalance = localStorage.getItem('yacht_balance') || '5.00';
 
-            // Atualiza o saldo em todos os lugares onde ele aparece (Início, Carteira, Perfil)
             const balanceTargets = ['userBalance', 'sacarSaldoDisponivel'];
             balanceTargets.forEach((id) => {
                 const el = document.getElementById(id);
                 if (el) el.innerText = `R$ ${savedBalance}`;
             });
 
-            // Preenche dados do Perfil, se o Auth expuser o usuário logado
             const perfilUsuario = document.getElementById('perfilUsuario');
             const perfilSaldo = document.getElementById('perfilSaldo');
             if (perfilUsuario) {
@@ -303,7 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Auth não está definido. A rota do dashboard não pôde ser protegida.');
         }
 
-        // ===== Navegação da Sidebar (troca de seções) =====
         const navItems = document.querySelectorAll('.nav-item[data-section]');
         const sections = document.querySelectorAll('.page-section');
 
@@ -314,19 +292,16 @@ document.addEventListener('DOMContentLoaded', () => {
             navItems.forEach((item) => {
                 item.classList.toggle('active', item.dataset.section === sectionKey);
             });
-            // Lembra a última seção visitada
             localStorage.setItem('yacht_last_section', sectionKey);
         }
 
         navItems.forEach((item) => {
             item.addEventListener('click', () => {
                 showSection(item.dataset.section);
-                // No mobile, a navegação acontece dentro da gaveta — fecha ao escolher uma seção
                 closeSidebar();
             });
         });
 
-        // Restaura a última seção visitada (padrão: início)
         const lastSection = localStorage.getItem('yacht_last_section');
         if (lastSection && document.getElementById(`section-${lastSection}`)) {
             showSection(lastSection);
